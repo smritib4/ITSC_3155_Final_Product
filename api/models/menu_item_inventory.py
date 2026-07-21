@@ -11,4 +11,4 @@ class MenuItemInventory(Base):
     quantity_required = Column(DECIMAL(10, 2), nullable=False, default=0)
 
     menu_item = relationship("MenuItem", back_populates="ingredient_links")
-    ingredient = relationship("Inventory", back_populates="menu_item_links")
+    ingredient = relationship("Inventory", back_populates="menu_items_links")

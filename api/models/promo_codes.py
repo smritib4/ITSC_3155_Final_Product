@@ -10,7 +10,7 @@ class PromoCode(Base):
     discountAmount = Column(DECIMAL(10, 2), nullable=False)
     expirationDate = Column(DATETIME, nullable=False)
     active = Column(Boolean, nullable=False, default=True)
-    managerID = Column(Integer, ForeignKey("restaurant_managers.managerID"), nullable=False)
+    managerID = Column(Integer, ForeignKey("restaurant_managers.manager_id"), nullable=False)
 
     orders = relationship("Order", back_populates="promo_code")
     manager = relationship("RestaurantManager", back_populates="promoCodes")
