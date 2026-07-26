@@ -41,13 +41,15 @@ errors before any feature is built. Not CRUD — these are prerequisite fixes.
 
 ## 1. `feature/orders-crud` — Orders  *(Stories 7, 20, 21, 22, 23)*
 
-- [ ] Rewrite **`controllers/orders.py`** stub to match the real `Order` model
+- [x] Rewrite **`controllers/orders.py`** stub to match the real `Order` model
   (PK `orderID`; fields `orderStatus`, `orderType`, `totalPrice`, `estimatedTime`,
   `orderDate`, `promoCode`, `customerID`, `employeeID`). Filter on `Order.orderID`.
-- [ ] Verify **`routers/orders.py`** (already exists) — 5 endpoints under `/orders`.
-- [ ] `orderStatus` update supports real-time status updates (Story 23); `orderType`
+- [x] Verify **`routers/orders.py`** (already exists) — 5 endpoints under `/orders`.
+- [x] `orderStatus` update supports real-time status updates (Story 23); `orderType`
   supports takeout/delivery (Story 20); `estimatedTime` supports Story 21.
-- [ ] Already registered in `index.py`.
+- [x] Already registered in `index.py`.
+- [x] Smoke tested end-to-end via `TestClient` (create, read-all, read-one, update,
+  delete, 404-on-missing) against SQLite — all passing.
 
 ## 2. `feature/order-details-crud` — Order Details / Line Items  *(Stories 8, 22)*
 
