@@ -11,8 +11,8 @@ class Review(Base):
     rating = Column(Integer, nullable = False)
     reviewDate = Column(Date, default = date.today)
 
-    customerID = Column(Integer, ForeignKey('customers.CustomerID', ondelete = "CASCADE"), nullable = False)
-    item_ID = Column(Integer, ForeignKey('menu_items.item_id', ondelete = "CASCADE"), nullable = False)
+    customerID = Column(Integer, ForeignKey('customers.customerID', ondelete="CASCADE"), nullable=False)
+    item_id = Column(Integer, ForeignKey('menu_items.item_id', ondelete="CASCADE"), nullable=False)
 
-    customer = relationship("Customer", back_populates = "reviews")
+    customer = relationship("Customer", back_populates="reviews")
     menuItem = relationship("MenuItem", back_populates="reviews")

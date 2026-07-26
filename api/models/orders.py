@@ -16,10 +16,11 @@ class Order(Base):
 
     promoCode = Column(String(50), ForeignKey("promo_codes.promoCode"), nullable=True)
     customerID = Column(Integer, ForeignKey("customers.customerID"), nullable=True)
-    employeeID = Column(Integer, ForeignKey("restaurant_employees.employeeID"), nullable=True)
+    employeeID = Column(Integer, ForeignKey("restaurant_employees.id"), nullable=True)
 
     payment = relationship("Payment", back_populates="order", uselist=False)
     promo_code = relationship("PromoCode", back_populates="orders")
     customer = relationship("Customer", back_populates="orders")
     employee = relationship("RestaurantEmployee", back_populates="orders")
+    order_items = relationship("OrderItem", back_populates="order", cascade="all, delete-orphan")
     

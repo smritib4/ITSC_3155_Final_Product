@@ -19,7 +19,7 @@ class MenuItem(Base):
     updated_at = Column(DATETIME, nullable=False, default=datetime.now, onupdate=datetime.now)
 
 
-    created_by = relationship("RestaurantManager", back_populates="menu_item")
+    created_by = relationship("RestaurantManager", back_populates="menu_items")
     ingredient_links = relationship("MenuItemInventory", back_populates="menu_item", cascade="all, delete-orphan")
     order_links = relationship("OrderItem", back_populates="menu_item")
-    reviews = relationship("Review", back_populates="menu_item", cascade="all, delete-orphan")
+    reviews = relationship("Review", back_populates="menuItem", cascade="all, delete-orphan")
