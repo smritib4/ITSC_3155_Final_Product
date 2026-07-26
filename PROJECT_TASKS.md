@@ -28,7 +28,7 @@ and `models/model_loader.py`).
 | Table / Model | Model | Schema | Controller | Router | Registered | CRUD status |
 |---|---|---|---|---|---|---|
 | `orders` | ✅ | ✅ | ✅ | ✅ | ✅ | Full CRUD working (verified) |
-| `order_details` (OrderItem) | ❌ missing | ❌ missing | ⚠️ broken | ✅ | ✅ | Model + schema missing → **crashes app** |
+| `order_details` (OrderItem) | ✅ | ✅ | ✅ | ✅ | ✅ | Full CRUD working (verified) |
 | `customers` | ✅ | ✅ | ❌ | ❌ | ❌ | No CRUD |
 | `restaurant_employees` | ✅ | ✅ | ❌ | ❌ | ❌ | No CRUD |
 | `inventory` | ✅ | ✅ | ❌ | ❌ | ❌ | No CRUD |
@@ -61,8 +61,9 @@ branch (e.g. `feature/fix-skeleton-bugs`) before building new features.
   `description`, and `model.Order.id`, none of which exist on the real `Order` model
   (PK is `orderID`). Rewrite to match the actual `Order` columns. *(Fixed in
   `feature/orders_crud`.)*
-- [ ] **`controllers/order_details.py` is a template stub** — references `sandwich_id`,
-  `amount`, `.id`. Rewrite to match the real order-details model.
+- [x] **`controllers/order_details.py` is a template stub** — references `sandwich_id`,
+  `amount`, `.id`. Rewrite to match the real order-details model. *(Fixed in
+  `feature/order_details_crud`.)*
 - [x] **Broken foreign keys (column-name mismatches):**
   - `orders.py`: FK `restaurant_employees.employeeID` — actual PK is `id` (there is also a
     string `employee_id`). Pick the correct target and align.
@@ -96,7 +97,7 @@ router in `routers/index.py`, and confirm the model is in `model_loader.py`. Fol
 product backlog in §8 for traceability.
 
 - [x] **`feature/orders-crud`** — fix + verify orders CRUD (see bugs above). *(Stories 7, 20, 21, 22, 23)*
-- [ ] **`feature/order-details-crud`** — create model + schema + controller + router. *(Stories 8, 22)*
+- [x] **`feature/order-details-crud`** — create model + schema + controller + router. *(Stories 8, 22)*
 - [ ] **`feature/customers-crud`** — controller + router (schema exists). *(Stories 16, 17)*
 - [ ] **`feature/employees-crud`** — controller + router (schema exists). *(supporting/admin CRUD)*
 - [ ] **`feature/inventory-crud`** — controller + router (schema exists). *(Stories 4, 5)*
