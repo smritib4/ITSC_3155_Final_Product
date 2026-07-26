@@ -53,11 +53,13 @@ errors before any feature is built. Not CRUD — these are prerequisite fixes.
 
 ## 2. `feature/order-details-crud` — Order Details / Line Items  *(Stories 8, 22)*
 
-- [ ] Rewrite **`controllers/order_details.py`** stub to match the new `OrderItem` model
+- [x] Rewrite **`controllers/order_details.py`** stub to match the new `OrderItem` model
   from §0 (fields like `order_id`, `item_id`, `quantity`). Filter on the real PK.
-- [ ] Verify **`routers/order_details.py`** (already exists) — 5 endpoints under
+- [x] Verify **`routers/order_details.py`** (already exists) — 5 endpoints under
   `/orderdetails`.
-- [ ] Already registered in `index.py`.
+- [x] Already registered in `index.py`.
+- [x] Smoke tested end-to-end via `TestClient` (create, read-all, read-one, update,
+  delete, 404-on-missing) against SQLite — all passing.
 
 ## 3. `feature/customers-crud` — Customers  *(Stories 16, 17)*
 
