@@ -27,7 +27,7 @@ and `models/model_loader.py`).
 
 | Table / Model | Model | Schema | Controller | Router | Registered | CRUD status |
 |---|---|---|---|---|---|---|
-| `orders` | ✅ | ✅ | ⚠️ broken | ✅ | ✅ | Controller doesn't match model |
+| `orders` | ✅ | ✅ | ✅ | ✅ | ✅ | Full CRUD working (verified) |
 | `order_details` (OrderItem) | ❌ missing | ❌ missing | ⚠️ broken | ✅ | ✅ | Model + schema missing → **crashes app** |
 | `customers` | ✅ | ✅ | ❌ | ❌ | ❌ | No CRUD |
 | `restaurant_employees` | ✅ | ✅ | ❌ | ❌ | ❌ | No CRUD |
@@ -57,9 +57,10 @@ branch (e.g. `feature/fix-skeleton-bugs`) before building new features.
   `order_items` relationship. Create the `OrderItem`/order_details model + schema (linking
   `orders` ↔ `menu_items` with quantity), add the relationship on `Order`, and register it
   in `model_loader.py`.
-- [ ] **`controllers/orders.py` is a template stub** — references `customer_name`,
+- [x] **`controllers/orders.py` is a template stub** — references `customer_name`,
   `description`, and `model.Order.id`, none of which exist on the real `Order` model
-  (PK is `orderID`). Rewrite to match the actual `Order` columns.
+  (PK is `orderID`). Rewrite to match the actual `Order` columns. *(Fixed in
+  `feature/orders_crud`.)*
 - [ ] **`controllers/order_details.py` is a template stub** — references `sandwich_id`,
   `amount`, `.id`. Rewrite to match the real order-details model.
 - [x] **Broken foreign keys (column-name mismatches):**
@@ -94,7 +95,7 @@ router in `routers/index.py`, and confirm the model is in `model_loader.py`. Fol
 `orders` slice as the template. Each gets its own branch. **Story IDs** reference the
 product backlog in §8 for traceability.
 
-- [ ] **`feature/orders-crud`** — fix + verify orders CRUD (see bugs above). *(Stories 7, 20, 21, 22, 23)*
+- [x] **`feature/orders-crud`** — fix + verify orders CRUD (see bugs above). *(Stories 7, 20, 21, 22, 23)*
 - [ ] **`feature/order-details-crud`** — create model + schema + controller + router. *(Stories 8, 22)*
 - [ ] **`feature/customers-crud`** — controller + router (schema exists). *(Stories 16, 17)*
 - [ ] **`feature/employees-crud`** — controller + router (schema exists). *(supporting/admin CRUD)*
