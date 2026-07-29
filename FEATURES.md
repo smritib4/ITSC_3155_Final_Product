@@ -13,8 +13,13 @@
 | Registration | add `app.include_router(...)` in `api/routers/index.py` |
 | Model | confirm registered in `api/models/model_loader.py` |
 | Schema | `Base` / `Create` / `Update` / response (most already exist) |
+| Tests | `api/tests/test_<name>.py` — pytest integration test hitting the real endpoints (via the `client` fixture in `api/tests/conftest.py`) against the isolated in-memory test DB; cover create, read-all, read-one (+ 404), update (+ 404), delete (+ 404) |
 
 Reference implementation to copy: the `orders` slice (after §0 fixes).
+
+**Standing convention:** every feature branch from here on out includes its test file as part
+of the work item — when a work item's boxes get checked off, `api/tests/test_<name>.py` is
+created/updated and passing in the same pass. No separate "testing" branch needed per feature.
 
 ---
 
@@ -48,8 +53,8 @@ errors before any feature is built. Not CRUD — these are prerequisite fixes.
 - [x] `orderStatus` update supports real-time status updates (Story 23); `orderType`
   supports takeout/delivery (Story 20); `estimatedTime` supports Story 21.
 - [x] Already registered in `index.py`.
-- [x] Smoke tested end-to-end via `TestClient` (create, read-all, read-one, update,
-  delete, 404-on-missing) against SQLite — all passing.
+- [x] `api/tests/test_orders.py` — 8 tests (create, read-all, read-one + 404, update + 404,
+  delete + 404) — all passing.
 
 ## 2. `feature/order-details-crud` — Order Details / Line Items  *(Stories 8, 22)*
 
@@ -58,8 +63,8 @@ errors before any feature is built. Not CRUD — these are prerequisite fixes.
 - [x] Verify **`routers/order_details.py`** (already exists) — 5 endpoints under
   `/orderdetails`.
 - [x] Already registered in `index.py`.
-- [x] Smoke tested end-to-end via `TestClient` (create, read-all, read-one, update,
-  delete, 404-on-missing) against SQLite — all passing.
+- [x] `api/tests/test_order_details.py` — 8 tests (create, read-all, read-one + 404,
+  update + 404, delete + 404), creating real orders/menu items first — all passing.
 
 ## 3. `feature/customers-crud` — Customers  *(Stories 16, 17)*
 
@@ -67,16 +72,16 @@ errors before any feature is built. Not CRUD — these are prerequisite fixes.
 - [x] Create **`routers/customers.py`** under `/customers`; register in `index.py`.
 - [x] `hasAccount` flag supports place-order-without-account (16) & optional account (17).
 - [x] Schema exists (`schemas/customer.py`) — add a `CustomerUpdate` (currently missing).
-- [x] Smoke tested end-to-end via `TestClient` (create, read-all, read-one, update,
-  delete, 404-on-missing, create-without-account) against SQLite — all passing.
+- [x] `api/tests/test_customers.py` — 9 tests (create, invalid-email-422, read-all,
+  read-one + 404, update + 404, delete + 404) — all passing.
 
 ## 4. `feature/employees-crud` — Restaurant Employees  *(supporting/admin)*
 
 - [x] Create **`controllers/employees.py`** (5 functions; PK `id`).
 - [x] Create **`routers/employees.py`** under `/employees`; register in `index.py`.
 - [x] Schema exists (`schemas/employee.py`, includes `EmployeeUpdate`).
-- [x] Smoke tested end-to-end via `TestClient` (create, read-all, read-one, update,
-  delete, 404-on-missing) against SQLite — all passing.
+- [x] `api/tests/test_employees.py` — 8 tests (create, read-all, read-one + 404,
+  update + 404, delete + 404) — all passing.
 
 ## 5. `feature/inventory-crud` — Inventory  *(Stories 4, 5)*
 
@@ -84,8 +89,8 @@ errors before any feature is built. Not CRUD — these are prerequisite fixes.
 - [x] Create **`routers/inventory.py`** under `/inventory`; register in `index.py`.
 - [x] Update endpoint enables manual inventory adjustment (Story 5).
 - [x] Schema exists (`schemas/inventory.py`, includes `InventoryUpdate`).
-- [x] Smoke tested end-to-end via `TestClient` (create, read-all, read-one, update
-  (manual adjustment), delete, 404-on-missing) against SQLite — all passing.
+- [x] `api/tests/test_inventory.py` — 8 tests (create, read-all, read-one + 404,
+  update (manual adjustment) + 404, delete + 404) — all passing.
 
 ## 6. `feature/menu-items-crud` — Menu Items  *(Stories 1, 2, 3, 6)*
 
@@ -93,9 +98,8 @@ errors before any feature is built. Not CRUD — these are prerequisite fixes.
 - [x] Create **`routers/menu_items.py`** under `/menuitems`; register in `index.py`.
 - [x] Create (1) / Delete (2) / Update (3) map directly to the CRUD endpoints.
 - [x] Schema exists (`schemas/menu_item.py`, includes `MenuItemUpdate`).
-- [x] Smoke tested end-to-end via `TestClient` (create, read-all, read-one, update
-  (price + `is_available` toggle for Story 6), delete, 404-on-missing) against
-  SQLite — all passing.
+- [x] `api/tests/test_menu_items.py` — 8 tests (create, read-all, read-one + 404,
+  update (`is_available` toggle for Story 6) + 404, delete + 404) — all passing.
 
 ## 7. `feature/menu-item-inventory-crud` — Menu ↔ Ingredient Links  *(Story 4)*
 
@@ -175,10 +179,22 @@ full CRUD slice.
 
 ## Cross-cutting features
 
-## 20. `feature/unit-tests` — Testing
-- [ ] Rewrite `tests/test_orders.py` to match the corrected orders controller/model.
-- [ ] Add at least one pytest test per new controller (mock DB session via `pytest-mock`).
-- [ ] `pytest` passes green.
+## 20. `testing_features_1to6` — Testing Catch-up (Features 1–6)
+- [x] Add `TESTING` env-var switch (`dependencies/config.py`) + isolated in-memory
+  SQLite engine with `StaticPool` (`dependencies/database.py`), so the test suite never
+  touches the dev DB (`ros.db` / MySQL).
+- [x] Add `api/tests/conftest.py` — sets `TESTING=1`, provides an autouse fixture that
+  creates/drops all tables per test function, and a `client` (`TestClient`) fixture.
+- [x] Rewrite `api/tests/test_orders.py` (was a broken stub using a nonexistent
+  `customer_name`/`description` schema) to match the corrected `Order` model.
+- [x] `api/tests/test_order_details.py`, `test_customers.py`, `test_employees.py`,
+  `test_inventory.py`, `test_menu_items.py` — one file per feature (49 tests total).
+- [x] Add `pytest-cov` to `requirements.txt`.
+- [x] `pytest api/tests` passes green (49 passed).
+
+See the **Standing convention** note above §1: every feature branch from work item 7 onward
+adds/updates its own `api/tests/test_<name>.py` as part of that work item — a dedicated
+catch-up branch like this one shouldn't be needed again.
 
 ## 21. `feature/seed-data` — Demo Data
 - [ ] Script/fixture populating every table with realistic sample data for the demo.

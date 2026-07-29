@@ -4,6 +4,7 @@ sqlalchemy
 pymysql
 pytest
 pytest-mock
+pytest-cov
 httpx
 cryptography
 pydantic
