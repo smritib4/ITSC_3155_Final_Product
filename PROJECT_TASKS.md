@@ -74,8 +74,8 @@ branch (e.g. `feature/fix-skeleton-bugs`) before building new features.
   `menu_item_links`. Names must match on both sides or the mapper errors out.
 - [x] **`review.py` schema/model field mismatch:** schema uses `item_id`, model column is
   `item_ID`. Align them.
-- [ ] **`tests/test_orders.py` is broken** — asserts `customer_name`/`description`. Rewrite
-  to match the corrected orders controller/model.
+- [x] **`tests/test_orders.py` is broken** — asserts `customer_name`/`description`. Rewrote
+  to match the corrected orders controller/model *(done in `testing_features_1to6`)*.
 - [x] **`email-validator` not installed / not in `requirements.txt`** — `schemas/customer.py`
   and `schemas/restaurant_manager.py` use pydantic `EmailStr`, which fails to import without
   it. Add `email-validator` to `requirements.txt` and install.
@@ -128,11 +128,16 @@ Some stories need custom query/logic endpoints in addition to standard CRUD:
 
 ## 5. Testing
 
-- [ ] **`feature/unit-tests`** — at least one passing pytest test (rewrite `test_orders.py`
-  and ideally add one test per new controller). Use `pytest-mock` for the DB session as in
-  the existing test.
-- [ ] Run `pytest` and confirm **all tests pass**.
+See `TEST_PLAN.md` for the full strategy/rationale (integration tests against an isolated
+in-memory SQLite DB, via `api/tests/conftest.py`'s `client` fixture).
+
+- [x] **`testing_features_1to6`** — one `api/tests/test_<name>.py` integration-test file per
+  completed feature (orders, order_details, customers, employees, inventory, menu_items);
+  rewrote the broken `test_orders.py`. 49 tests total.
+- [x] Run `pytest` and confirm **all tests pass** (49 passed).
 - [ ] Manually verify every endpoint via `http://127.0.0.1:8000/docs`.
+- [ ] **Standing convention:** every feature work item from #7 onward adds/updates its own
+  `api/tests/test_<name>.py` in the same branch — no separate testing branch going forward.
 
 ---
 
