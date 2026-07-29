@@ -113,10 +113,13 @@ errors before any feature is built. Not CRUD — these are prerequisite fixes.
 
 ## 8. `feature/payments-crud` — Payments  *(Stories 18, 19)*
 
-- [ ] Create **`controllers/payments.py`** (5 functions; PK `paymentID`).
-- [ ] Create **`routers/payments.py`** under `/payments`; register in `index.py`.
-- [ ] `paymentMethod` supports online (18) vs cash-on-delivery/pickup (19).
-- [ ] Schema exists (`schemas/payments.py`, includes `PaymentUpdate`).
+- [x] Create **`controllers/payments.py`** (5 functions; PK `paymentID`).
+- [x] Create **`routers/payments.py`** under `/payments`; registered in `index.py`.
+- [x] `paymentMethod` supports online (18) vs cash-on-delivery/pickup (19).
+- [x] Schema exists (`schemas/payments.py`, includes `PaymentUpdate`).
+- [x] `api/tests/test_payments.py` — 8 tests (create, read-all, read-one + 404, update
+  (status change e.g. refund) + 404, delete + 404), creating a real order first — all
+  passing.
 
 ## 9. `feature/promo-codes-crud` — Promo Codes  *(Stories 12, 13, 28)*
 
