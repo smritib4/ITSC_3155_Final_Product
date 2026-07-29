@@ -80,10 +80,12 @@ errors before any feature is built. Not CRUD — these are prerequisite fixes.
 
 ## 5. `feature/inventory-crud` — Inventory  *(Stories 4, 5)*
 
-- [ ] Create **`controllers/inventory.py`** (5 functions; PK `ingredient_id`).
-- [ ] Create **`routers/inventory.py`** under `/inventory`; register in `index.py`.
-- [ ] Update endpoint enables manual inventory adjustment (Story 5).
-- [ ] Schema exists (`schemas/inventory.py`, includes `InventoryUpdate`).
+- [x] Create **`controllers/inventory.py`** (5 functions; PK `ingredient_id`).
+- [x] Create **`routers/inventory.py`** under `/inventory`; register in `index.py`.
+- [x] Update endpoint enables manual inventory adjustment (Story 5).
+- [x] Schema exists (`schemas/inventory.py`, includes `InventoryUpdate`).
+- [x] Smoke tested end-to-end via `TestClient` (create, read-all, read-one, update
+  (manual adjustment), delete, 404-on-missing) against SQLite — all passing.
 
 ## 6. `feature/menu-items-crud` — Menu Items  *(Stories 1, 2, 3, 6)*
 
