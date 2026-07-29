@@ -10,6 +10,12 @@ class CustomerBase(BaseModel):
 class CustomerCreate(CustomerBase):
     pass
 
+class CustomerUpdate(BaseModel):
+    name: Optional[str] = None
+    email: Optional[EmailStr] = None
+    phone: Optional[str] = None
+    hasAccount: Optional[bool] = None
+
 class CustomerResponse(CustomerBase):
     customerID: int
 

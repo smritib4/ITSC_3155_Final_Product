@@ -29,7 +29,7 @@ and `models/model_loader.py`).
 |---|---|---|---|---|---|---|
 | `orders` | ✅ | ✅ | ✅ | ✅ | ✅ | Full CRUD working (verified) |
 | `order_details` (OrderItem) | ✅ | ✅ | ✅ | ✅ | ✅ | Full CRUD working (verified) |
-| `customers` | ✅ | ✅ | ❌ | ❌ | ❌ | No CRUD |
+| `customers` | ✅ | ✅ | ✅ | ✅ | ✅ | Full CRUD working (verified) |
 | `restaurant_employees` | ✅ | ✅ | ❌ | ❌ | ❌ | No CRUD |
 | `inventory` | ✅ | ✅ | ❌ | ❌ | ❌ | No CRUD |
 | `menu_items` | ✅ | ✅ | ❌ | ❌ | ❌ | No CRUD |
@@ -81,8 +81,9 @@ branch (e.g. `feature/fix-skeleton-bugs`) before building new features.
   it. Add `email-validator` to `requirements.txt` and install.
 - [x] **`inventory.py` `onupdate=datetime.now()`** (line 15) is called with parentheses, so
   it's evaluated once at import instead of per-update. Change to `onupdate=datetime.now`.
-- [ ] **Missing `*Update` schemas** — add `CustomerUpdate` (`schemas/customer.py`) and
-  `ReviewUpdate` (`schemas/review.py`) for their PUT endpoints.
+- [x] **Missing `*Update` schemas** — add `CustomerUpdate` (`schemas/customer.py`) *(done in
+  `feature/customers_crud`)* and `ReviewUpdate` (`schemas/review.py`) for their PUT
+  endpoints.
 - [x] **DB config** (`dependencies/config.py`) has hardcoded MySQL credentials and leftover
   DB name `sandwich_maker_api`. Confirm a working DB (or switch to SQLite for local
   dev/testing) so the app and tests can run.
@@ -98,7 +99,7 @@ product backlog in §8 for traceability.
 
 - [x] **`feature/orders-crud`** — fix + verify orders CRUD (see bugs above). *(Stories 7, 20, 21, 22, 23)*
 - [x] **`feature/order-details-crud`** — create model + schema + controller + router. *(Stories 8, 22)*
-- [ ] **`feature/customers-crud`** — controller + router (schema exists). *(Stories 16, 17)*
+- [x] **`feature/customers-crud`** — controller + router (schema exists). *(Stories 16, 17)*
 - [ ] **`feature/employees-crud`** — controller + router (schema exists). *(supporting/admin CRUD)*
 - [ ] **`feature/inventory-crud`** — controller + router (schema exists). *(Stories 4, 5)*
 - [ ] **`feature/menu-items-crud`** — controller + router (schema exists). *(Stories 1, 2, 3, 6)*
