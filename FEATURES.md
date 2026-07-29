@@ -72,9 +72,11 @@ errors before any feature is built. Not CRUD — these are prerequisite fixes.
 
 ## 4. `feature/employees-crud` — Restaurant Employees  *(supporting/admin)*
 
-- [ ] Create **`controllers/employees.py`** (5 functions; PK `id`).
-- [ ] Create **`routers/employees.py`** under `/employees`; register in `index.py`.
-- [ ] Schema exists (`schemas/employee.py`, includes `EmployeeUpdate`).
+- [x] Create **`controllers/employees.py`** (5 functions; PK `id`).
+- [x] Create **`routers/employees.py`** under `/employees`; register in `index.py`.
+- [x] Schema exists (`schemas/employee.py`, includes `EmployeeUpdate`).
+- [x] Smoke tested end-to-end via `TestClient` (create, read-all, read-one, update,
+  delete, 404-on-missing) against SQLite — all passing.
 
 ## 5. `feature/inventory-crud` — Inventory  *(Stories 4, 5)*
 
