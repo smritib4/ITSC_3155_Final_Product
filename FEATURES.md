@@ -63,10 +63,12 @@ errors before any feature is built. Not CRUD — these are prerequisite fixes.
 
 ## 3. `feature/customers-crud` — Customers  *(Stories 16, 17)*
 
-- [ ] Create **`controllers/customers.py`** (5 functions; PK `customerID`).
-- [ ] Create **`routers/customers.py`** under `/customers`; register in `index.py`.
-- [ ] `hasAccount` flag supports place-order-without-account (16) & optional account (17).
-- [ ] Schema exists (`schemas/customer.py`) — add a `CustomerUpdate` (currently missing).
+- [x] Create **`controllers/customers.py`** (5 functions; PK `customerID`).
+- [x] Create **`routers/customers.py`** under `/customers`; register in `index.py`.
+- [x] `hasAccount` flag supports place-order-without-account (16) & optional account (17).
+- [x] Schema exists (`schemas/customer.py`) — add a `CustomerUpdate` (currently missing).
+- [x] Smoke tested end-to-end via `TestClient` (create, read-all, read-one, update,
+  delete, 404-on-missing, create-without-account) against SQLite — all passing.
 
 ## 4. `feature/employees-crud` — Restaurant Employees  *(supporting/admin)*
 
