@@ -33,7 +33,7 @@ and `models/model_loader.py`).
 | `restaurant_employees` | ✅ | ✅ | ✅ | ✅ | ✅ | Full CRUD working (verified) |
 | `inventory` | ✅ | ✅ | ✅ | ✅ | ✅ | Full CRUD working (verified) |
 | `menu_items` | ✅ | ✅ | ✅ | ✅ | ✅ | Full CRUD working (verified) |
-| `menu_item_inventory` | ✅ | ✅ | ❌ | ❌ | ❌ | No CRUD |
+| `menu_item_inventory` | ✅ | ✅ | ✅ | ✅ | ✅ | Full CRUD working (verified, composite PK) |
 | `payments` | ✅ | ✅ | ❌ | ❌ | ❌ | No CRUD |
 | `promo_codes` | ✅ | ✅ | ❌ | ❌ | ❌ | No CRUD |
 | `reports` | ✅ | ✅ | ❌ | ❌ | ❌ | No CRUD |
@@ -103,7 +103,7 @@ product backlog in §8 for traceability.
 - [x] **`feature/employees-crud`** — controller + router (schema exists). *(supporting/admin CRUD)*
 - [x] **`feature/inventory-crud`** — controller + router (schema exists). *(Stories 4, 5)*
 - [x] **`feature/menu-items-crud`** — controller + router (schema exists). *(Stories 1, 2, 3, 6)*
-- [ ] **`feature/menu-item-inventory-crud`** — controller + router (composite PK
+- [x] **`feature/menu-item-inventory-crud`** — controller + router (composite PK
   `item_id` + `ingredient_id`; read-one/update/delete need both keys). *(Story 4)*
 - [ ] **`feature/payments-crud`** — controller + router (schema exists). *(Stories 18, 19)*
 - [ ] **`feature/promo-codes-crud`** — controller + router (string PK `promoCode`). *(Stories 12, 13, 28)*

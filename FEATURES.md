@@ -103,11 +103,13 @@ errors before any feature is built. Not CRUD — these are prerequisite fixes.
 
 ## 7. `feature/menu-item-inventory-crud` — Menu ↔ Ingredient Links  *(Story 4)*
 
-- [ ] Create **`controllers/menu_item_inventory.py`** (5 functions; **composite PK**
+- [x] Create **`controllers/menu_item_inventory.py`** (5 functions; **composite PK**
   `item_id` + `ingredient_id`). `read_one` / `update` / `delete` take **both** keys.
-- [ ] Create **`routers/menu_item_inventory.py`** under `/menuiteminventory` with paths
-  like `GET/PUT/DELETE /{item_id}/{ingredient_id}`; register in `index.py`.
-- [ ] Schema exists (`schemas/menu_item_inventory.py`).
+- [x] Create **`routers/menu_item_inventory.py`** under `/menuiteminventory` with paths
+  like `GET/PUT/DELETE /{item_id}/{ingredient_id}`; registered in `index.py`.
+- [x] Schema exists (`schemas/menu_item_inventory.py`).
+- [x] `api/tests/test_menu_item_inventory.py` — 8 tests (create, read-all, read-one + 404,
+  update + 404, delete + 404), creating a real menu item + ingredient first — all passing.
 
 ## 8. `feature/payments-crud` — Payments  *(Stories 18, 19)*
 
