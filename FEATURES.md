@@ -89,10 +89,13 @@ errors before any feature is built. Not CRUD — these are prerequisite fixes.
 
 ## 6. `feature/menu-items-crud` — Menu Items  *(Stories 1, 2, 3, 6)*
 
-- [ ] Create **`controllers/menu_items.py`** (5 functions; PK `item_id`).
-- [ ] Create **`routers/menu_items.py`** under `/menuitems`; register in `index.py`.
-- [ ] Create (1) / Delete (2) / Update (3) map directly to the CRUD endpoints.
-- [ ] Schema exists (`schemas/menu_item.py`, includes `MenuItemUpdate`).
+- [x] Create **`controllers/menu_items.py`** (5 functions; PK `item_id`).
+- [x] Create **`routers/menu_items.py`** under `/menuitems`; register in `index.py`.
+- [x] Create (1) / Delete (2) / Update (3) map directly to the CRUD endpoints.
+- [x] Schema exists (`schemas/menu_item.py`, includes `MenuItemUpdate`).
+- [x] Smoke tested end-to-end via `TestClient` (create, read-all, read-one, update
+  (price + `is_available` toggle for Story 6), delete, 404-on-missing) against
+  SQLite — all passing.
 
 ## 7. `feature/menu-item-inventory-crud` — Menu ↔ Ingredient Links  *(Story 4)*
 
