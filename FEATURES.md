@@ -239,7 +239,7 @@ catch-up branch like this one shouldn't be needed again.
   (low stock, guest orders, promos, paid revenue, low ratings).
 
 ## 22. `feature/docs` — Documentation
-- [ ] Update `README.md` with any new setup/run/test steps.
+- [x] Update `README.md` with setup, run, seed, test, layout, and key demo endpoints.
 
 ---
 
