@@ -37,7 +37,7 @@ and `models/model_loader.py`).
 | `payments` | ✅ | ✅ | ✅ | ✅ | ✅ | Full CRUD working (verified) |
 | `promo_codes` | ✅ | ✅ | ✅ | ✅ | ✅ | Full CRUD working (verified, string PK) |
 | `reports` | ✅ | ✅ | ✅ | ✅ | ✅ | Full CRUD working (verified) |
-| `restaurant_managers` | ✅ | ✅ | ❌ | ❌ | ❌ | No CRUD |
+| `restaurant_managers` | ✅ | ✅ | ✅ | ✅ | ✅ | Full CRUD working (verified) |
 | `reviews` | ✅ | ✅ | ❌ | ❌ | ❌ | No CRUD |
 
 **Reference pattern to copy:** `models/orders.py` → `schemas/orders.py` →
@@ -108,7 +108,7 @@ product backlog in §8 for traceability.
 - [x] **`feature/payments-crud`** — controller + router (schema exists). *(Stories 18, 19)*
 - [x] **`feature/promo-codes-crud`** — controller + router (string PK `promoCode`). *(Stories 12, 13, 28)*
 - [x] **`feature/reports-crud`** — controller + router (schema exists). *(Stories 10, 14, 15)*
-- [ ] **`feature/restaurant-managers-crud`** — controller + router (schema exists). *(supporting/admin CRUD)*
+- [x] **`feature/restaurant-managers-crud`** — controller + router (schema exists). *(supporting/admin CRUD)*
 - [ ] **`feature/reviews-crud`** — controller + router (schema exists). *(Stories 11, 26, 27)*
 
 ### 4a. Business-logic endpoints (beyond plain CRUD)

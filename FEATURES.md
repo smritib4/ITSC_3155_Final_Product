@@ -141,9 +141,11 @@ errors before any feature is built. Not CRUD — these are prerequisite fixes.
 
 ## 11. `feature/restaurant-managers-crud` — Managers  *(supporting/admin)*
 
-- [ ] Create **`controllers/restaurant_managers.py`** (5 functions; PK `manager_id`).
-- [ ] Create **`routers/restaurant_managers.py`** under `/managers`; register in `index.py`.
-- [ ] Schema exists (`schemas/restaurant_manager.py`, includes `RestaurantManagerUpdate`).
+- [x] Create **`controllers/restaurant_managers.py`** (5 functions; PK `manager_id`).
+- [x] Create **`routers/restaurant_managers.py`** under `/managers`; registered in `index.py`.
+- [x] Schema exists (`schemas/restaurant_manager.py`, includes `RestaurantManagerUpdate`).
+- [x] `api/tests/test_restaurant_managers.py` — 9 tests (create, invalid-email-422, read-all,
+  read-one + 404, update + 404, delete + 404) — all passing.
 
 ## 12. `feature/reviews-crud` — Reviews  *(Stories 11, 26, 27)*
 
