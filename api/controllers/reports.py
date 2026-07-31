@@ -6,6 +6,9 @@ from fastapi import HTTPException, status, Response, Depends
 from ..models import report as model
 from ..models import payments as payment_model
 from ..models import orders as order_model
+from ..models import menu_item as menu_model
+from ..models import review as review_model
+from ..models import order_details as order_details_model
 from ..schemas import report as schema
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -99,6 +102,96 @@ def revenue_trends(db: Session, start_date: date, end_date: date):
         days=days,
         grand_total=grand_total,
     )
+
+
+def low_performing(
+    db: Session,
+    max_avg_rating: float = 2.5,
+    max_order_count: int = 2,
+):
+    """Return dishes with low average ratings and/or low order counts (Story 10).
+
+    A dish is included when:
+    - it has reviews and average_rating <= max_avg_rating, or
+    - its total ordered quantity <= max_order_count.
+
+    Complaint comments are review comments with rating <= 2.
+    """
+    try:
+        rating_subq = (
+            db.query(
+                review_model.Review.item_id.label("item_id"),
+                func.avg(review_model.Review.rating).label("avg_rating"),
+                func.count(review_model.Review.reviewID).label("review_count"),
+            )
+            .group_by(review_model.Review.item_id)
+            .subquery()
+        )
+        orders_subq = (
+            db.query(
+                order_details_model.OrderItem.item_id.label("item_id"),
+                func.coalesce(func.sum(order_details_model.OrderItem.quantity), 0).label(
+                    "order_count"
+                ),
+            )
+            .group_by(order_details_model.OrderItem.item_id)
+            .subquery()
+        )
+
+        rows = (
+            db.query(
+                menu_model.MenuItem,
+                rating_subq.c.avg_rating,
+                rating_subq.c.review_count,
+                orders_subq.c.order_count,
+            )
+            .outerjoin(rating_subq, menu_model.MenuItem.item_id == rating_subq.c.item_id)
+            .outerjoin(orders_subq, menu_model.MenuItem.item_id == orders_subq.c.item_id)
+            .all()
+        )
+
+        results = []
+        for item, avg_rating, review_count, order_count in rows:
+            avg = float(avg_rating) if avg_rating is not None else None
+            rc = int(review_count or 0)
+            oc = int(order_count or 0)
+            low_rating = avg is not None and avg <= max_avg_rating
+            low_orders = oc <= max_order_count
+            if not (low_rating or low_orders):
+                continue
+
+            complaint_rows = (
+                db.query(review_model.Review.comment)
+                .filter(
+                    review_model.Review.item_id == item.item_id,
+                    review_model.Review.rating <= 2,
+                    review_model.Review.comment.isnot(None),
+                    review_model.Review.comment != "",
+                )
+                .all()
+            )
+            results.append(
+                schema.LowPerformingDish(
+                    item_id=item.item_id,
+                    item_name=item.item_name,
+                    average_rating=avg,
+                    review_count=rc,
+                    order_count=oc,
+                    complaint_comments=[c[0] for c in complaint_rows],
+                )
+            )
+
+        results.sort(
+            key=lambda d: (
+                d.average_rating if d.average_rating is not None else 999,
+                d.order_count,
+            )
+        )
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
+
+    return results
 
 
 def create(db: Session, request):

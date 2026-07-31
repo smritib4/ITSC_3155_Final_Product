@@ -122,7 +122,7 @@ Some stories need custom query/logic endpoints in addition to standard CRUD:
 - [x] **`feature/menu-search`** — search/filter menu by dietary type + keyword search. *(Stories 24, 25)*
 - [x] **`feature/revenue-reports`** — daily revenue total + revenue trends. *(Stories 14, 15)*
 - [x] **`feature/promo-apply`** — apply promo code at checkout (discount calc). *(Story 28)*
-- [ ] **`feature/low-performing-dishes`** — identify low-performing dishes from reviews/sales. *(Story 10)*
+- [x] **`feature/low-performing-dishes`** — identify low-performing dishes from reviews/sales. *(Story 10)*
 
 ---
 
@@ -241,7 +241,7 @@ already answerable by a working endpoint, ⏳ = needs a feature still pending th
 | Can I easily create, update, or delete menu items? | `POST/PUT/DELETE /menuitems/{id}` — §6 | ✅ |
 | How does the system alert me if there are insufficient ingredients to fulfill an order? | `GET /inventory/alerts` comparing `inventory.quantity` vs `minimum_quantity` — §13 `inventory-alerts` | ✅ |
 | How can I view the list of all orders? Is there an option to view details of a specific order? | `GET /orders/` + `GET /orders/{id}` (§1); line items via `GET /orderdetails/` (§2) | ✅ |
-| How can I identify dishes that are less popular or have received complaints? Understand reasons behind dissatisfaction? | `reviews` CRUD (§12) surfaces comments/ratings per dish; `GET /reports/low-performing` aggregates low ratings/low order counts (§19 `low-performing-dishes`) | ⏳ (partial: §12 done; still needs §19) |
+| How can I identify dishes that are less popular or have received complaints? Understand reasons behind dissatisfaction? | `GET /reports/low-performing` aggregates low ratings/low order counts + complaint comments; reviews CRUD (§12) for raw data | ✅ |
 | Can I create and manage promotional codes, including setting expiration dates? | `promo_codes` CRUD (§9) — model has `expirationDate` + `active` columns | ✅ |
 | How can I determine total revenue generated from food sales on any given day? | `GET /reports/revenue/daily` aggregating paid `payments.amount` by `orders.orderDate` — §17 `revenue-reports` | ✅ |
 | Is there a way to view the list of orders within a specific date range? | `GET /orders?start_date=&end_date=` — §15 `orders-filter-date` | ✅ |
@@ -260,6 +260,7 @@ already answerable by a working endpoint, ⏳ = needs a feature still pending th
 
 ### Net remaining work to fully cover the checklist
 
-All ✅ items are already live. **All 12 tables now have CRUD.** The remaining ⏳ checklist
-item is `low-performing-dishes` (§19) — reviews CRUD (§12) is done, but the aggregate
-endpoint is still pending. No new tables/models are needed — just that endpoint.
+**All evaluation-checklist questions are now answerable by a working endpoint.** All 12
+tables have CRUD, and the business-logic endpoints that map to the checklist
+(`inventory-alerts`, `orders-filter-date`, `menu-search`, `revenue-reports`,
+`promo-apply`, `low-performing-dishes`) are done.

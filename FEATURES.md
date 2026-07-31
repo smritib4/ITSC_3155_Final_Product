@@ -139,7 +139,7 @@ errors before any feature is built. Not CRUD — these are prerequisite fixes.
 - [x] `api/tests/test_reports.py` — 8 tests (create, read-all, read-one + 404, update + 404,
   delete + 404) — all passing.
 
-## 11. `feature/restaurant-managers-crud` — Managers  *(supporting/admin)*
+## 11. `feature/` — Managers  *(supporting/admin)*
 
 - [x] Create **`controllers/restaurant_managers.py`** (5 functions; PK `manager_id`).
 - [x] Create **`routers/restaurant_managers.py`** under `/managers`; registered in `index.py`.
@@ -205,7 +205,11 @@ full CRUD slice.
   expired, missing promo/order, reject second apply) — all passing.
 
 ## 19. `feature/low-performing-dishes` — Analytics  *(Story 10)*
-- [ ] `GET /reports/low-performing` aggregating low ratings / low order counts per dish.
+- [x] `GET /reports/low-performing` aggregating low average ratings and/or low order
+  counts per dish, including complaint comments (ratings ≤ 2); optional
+  `max_avg_rating` / `max_order_count` query params (defaults 2.5 / 2).
+- [x] `api/tests/test_low_performing_dishes.py` — 4 tests (low-rated + complaints,
+  low order count, configurable thresholds, empty when none qualify) — all passing.
 
 ---
 
