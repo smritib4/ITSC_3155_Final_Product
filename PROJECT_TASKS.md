@@ -38,7 +38,7 @@ and `models/model_loader.py`).
 | `promo_codes` | ✅ | ✅ | ✅ | ✅ | ✅ | Full CRUD working (verified, string PK) |
 | `reports` | ✅ | ✅ | ✅ | ✅ | ✅ | Full CRUD working (verified) |
 | `restaurant_managers` | ✅ | ✅ | ✅ | ✅ | ✅ | Full CRUD working (verified) |
-| `reviews` | ✅ | ✅ | ❌ | ❌ | ❌ | No CRUD |
+| `reviews` | ✅ | ✅ | ✅ | ✅ | ✅ | Full CRUD working (verified) |
 
 **Reference pattern to copy:** `models/orders.py` → `schemas/orders.py` →
 `controllers/orders.py` → `routers/orders.py` (fix the bugs noted below first).
@@ -82,8 +82,8 @@ branch (e.g. `feature/fix-skeleton-bugs`) before building new features.
 - [x] **`inventory.py` `onupdate=datetime.now()`** (line 15) is called with parentheses, so
   it's evaluated once at import instead of per-update. Change to `onupdate=datetime.now`.
 - [x] **Missing `*Update` schemas** — add `CustomerUpdate` (`schemas/customer.py`) *(done in
-  `feature/customers_crud`)* and `ReviewUpdate` (`schemas/review.py`) for their PUT
-  endpoints.
+  `feature/customers_crud`)* and `ReviewUpdate` (`schemas/review.py`) *(done in
+  `feature/reviews_crud`)* for their PUT endpoints.
 - [x] **DB config** (`dependencies/config.py`) has hardcoded MySQL credentials and leftover
   DB name `sandwich_maker_api`. Confirm a working DB (or switch to SQLite for local
   dev/testing) so the app and tests can run.
@@ -109,7 +109,7 @@ product backlog in §8 for traceability.
 - [x] **`feature/promo-codes-crud`** — controller + router (string PK `promoCode`). *(Stories 12, 13, 28)*
 - [x] **`feature/reports-crud`** — controller + router (schema exists). *(Stories 10, 14, 15)*
 - [x] **`feature/restaurant-managers-crud`** — controller + router (schema exists). *(supporting/admin CRUD)*
-- [ ] **`feature/reviews-crud`** — controller + router (schema exists). *(Stories 11, 26, 27)*
+- [x] **`feature/reviews-crud`** — controller + router (schema exists; added `ReviewUpdate`). *(Stories 11, 26, 27)*
 
 ### 4a. Business-logic endpoints (beyond plain CRUD)
 
@@ -151,7 +151,7 @@ in-memory SQLite DB, via `api/tests/conftest.py`'s `client` fixture).
 
 ## 7. Definition of Done (technical)
 
-- [ ] All 12 tables have working CRUD endpoints exposed in `/docs`.
+- [x] All 12 tables have working CRUD endpoints exposed in `/docs`.
 - [ ] App starts cleanly with `uvicorn api.main:app --reload` (no import/mapper errors).
 - [ ] `pytest` passes.
 - [ ] Sample data loads and the full order flow can be demoed end-to-end.
@@ -241,7 +241,7 @@ already answerable by a working endpoint, ⏳ = needs a feature still pending th
 | Can I easily create, update, or delete menu items? | `POST/PUT/DELETE /menuitems/{id}` — §6 | ✅ |
 | How does the system alert me if there are insufficient ingredients to fulfill an order? | `GET /inventory/alerts` (or similar) comparing `inventory.quantity` vs `minimum_quantity` — §13 `inventory-alerts` | ⏳ |
 | How can I view the list of all orders? Is there an option to view details of a specific order? | `GET /orders/` + `GET /orders/{id}` (§1); line items via `GET /orderdetails/` (§2) | ✅ |
-| How can I identify dishes that are less popular or have received complaints? Understand reasons behind dissatisfaction? | `reviews` CRUD (§12) surfaces comments/ratings per dish; `GET /reports/low-performing` aggregates low ratings/low order counts (§19 `low-performing-dishes`) | ⏳ (needs §12 + §19) |
+| How can I identify dishes that are less popular or have received complaints? Understand reasons behind dissatisfaction? | `reviews` CRUD (§12) surfaces comments/ratings per dish; `GET /reports/low-performing` aggregates low ratings/low order counts (§19 `low-performing-dishes`) | ⏳ (partial: §12 done; still needs §19) |
 | Can I create and manage promotional codes, including setting expiration dates? | `promo_codes` CRUD (§9) — model has `expirationDate` + `active` columns | ✅ |
 | How can I determine total revenue generated from food sales on any given day? | `GET /reports/revenue/daily` aggregating `payments.amount` by date — §17 `revenue-reports` | ⏳ (needs §17; §8 payments already provides the underlying data) |
 | Is there a way to view the list of orders within a specific date range? | `GET /orders?start_date=&end_date=` — §15 `orders-filter-date` | ⏳ |
@@ -255,14 +255,13 @@ already answerable by a working endpoint, ⏳ = needs a feature still pending th
 | Does the system support takeout/delivery? How do I specify my preference? | `orders.orderType` field, set on `POST/PUT /orders/` — §1 | ✅ |
 | How can I track the status of my order by my tracking number? | `GET /orders/{orderID}` returns `orderStatus`; `orderID` doubles as the tracking number — §1 | ✅ |
 | Is there a feature to search for specific types of food (e.g. vegetarian)? | `GET /menuitems?dietary_type=` filter + `?q=` keyword search — §16 `menu-search` | ⏳ |
-| How can I rate/review dishes and share experiences with other customers? | `reviews` CRUD (§12): `POST /reviews/` to create, `GET /reviews/` to browse others' | ⏳ |
+| How can I rate/review dishes and share experiences with other customers? | `reviews` CRUD (§12): `POST /reviews/` to create, `GET /reviews/` to browse others' | ✅ |
 | How do I apply a promo code to my order? | `promoCode` field already exists on `Order` (schema/model) but nothing validates/discounts yet — §18 `promo-apply` needed on top of §9 `promo-codes-crud` | ⏳ |
 
 ### Net remaining work to fully cover the checklist
 
-All ✅ items are already live. The ⏳ items are exactly what's left in `FEATURES.md`:
-`reviews-crud` (§12, needs a `ReviewUpdate` schema too), plus the business-logic
-endpoints `inventory-alerts` (§13), `orders-filter-date` (§15), `menu-search` (§16),
-`revenue-reports` (§17), `promo-apply` (§18), and `low-performing-dishes` (§19). No new
-tables/models are needed — just the endpoints. (`promo-codes-crud` §9 and `reports-crud`
-§10 are done; daily revenue / low-performing still need §17 / §19 on top of reports.)
+All ✅ items are already live. **All 12 tables now have CRUD.** The remaining ⏳ checklist
+items are business-logic endpoints in `FEATURES.md`: `inventory-alerts` (§13),
+`orders-filter-date` (§15), `menu-search` (§16), `revenue-reports` (§17), `promo-apply`
+(§18), and `low-performing-dishes` (§19). No new tables/models are needed — just the
+endpoints.

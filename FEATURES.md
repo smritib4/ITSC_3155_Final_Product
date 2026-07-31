@@ -149,10 +149,13 @@ errors before any feature is built. Not CRUD — these are prerequisite fixes.
 
 ## 12. `feature/reviews-crud` — Reviews  *(Stories 11, 26, 27)*
 
-- [ ] Create **`controllers/reviews.py`** (5 functions; PK `reviewID`).
-- [ ] Create **`routers/reviews.py`** under `/reviews`; register in `index.py`.
-- [ ] Create (26) / read reviews (11, 27) map to CRUD endpoints.
-- [ ] Schema exists (`schemas/review.py`) — add a `ReviewUpdate` (currently missing).
+- [x] Create **`controllers/reviews.py`** (5 functions; PK `reviewID`).
+- [x] Create **`routers/reviews.py`** under `/reviews`; registered in `index.py`.
+- [x] Create (26) / read reviews (11, 27) map to CRUD endpoints.
+- [x] Schema exists (`schemas/review.py`) — added `ReviewUpdate`.
+- [x] `api/tests/test_reviews.py` — 9 tests (create, invalid-rating-422, read-all,
+  read-one + 404, update + 404, delete + 404), creating a real customer + menu item
+  first — all passing.
 
 ---
 

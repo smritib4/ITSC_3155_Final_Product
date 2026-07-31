@@ -11,6 +11,12 @@ class ReviewBase(BaseModel):
 class ReviewCreate(ReviewBase):
     pass
 
+class ReviewUpdate(BaseModel):
+    rating: Optional[int] = Field(None, ge=1, le=5)
+    comment: Optional[str] = None
+    customerID: Optional[int] = None
+    item_id: Optional[int] = None
+
 class ReviewResponse(ReviewBase):
     reviewID: int
     reviewDate: date

@@ -10,6 +10,7 @@ from . import (
     promo_codes,
     reports,
     restaurant_managers,
+    reviews,
 )
 
 
@@ -25,3 +26,4 @@ def load_routes(app):
     app.include_router(promo_codes.router)
     app.include_router(reports.router)
     app.include_router(restaurant_managers.router)
+    app.include_router(reviews.router)
