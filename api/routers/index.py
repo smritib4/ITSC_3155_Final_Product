@@ -9,6 +9,7 @@ from . import (
     payments,
     promo_codes,
     reports,
+    restaurant_managers,
 )
 
 
@@ -23,3 +24,4 @@ def load_routes(app):
     app.include_router(payments.router)
     app.include_router(promo_codes.router)
     app.include_router(reports.router)
+    app.include_router(restaurant_managers.router)
