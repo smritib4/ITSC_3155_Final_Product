@@ -165,8 +165,10 @@ These add custom query/logic routes to an existing router/controller rather than
 full CRUD slice.
 
 ## 13. `feature/inventory-alerts` — Low-stock Alert  *(Story 4)*
-- [ ] `GET /inventory/alerts` (or `/low-stock`) returning ingredients where
-  `quantity <= minimum_quantity`.
+- [x] `GET /inventory/alerts` returning ingredients where `quantity <= minimum_quantity`
+  (declared before `/{item_id}` so the path is not captured as an int id).
+- [x] `api/tests/test_inventory_alerts.py` — 4 tests (low-stock only, equal-to-minimum,
+  empty when all stocked, multiple alerts) — all passing.
 
 ## 14. `feature/menu-auto-disable` — Auto-disable Out-of-stock  *(Story 6)*
 - [ ] Logic to set `menu_items.is_available = False` when linked ingredients are depleted

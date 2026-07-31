@@ -4,6 +4,18 @@ from ..models import inventory as model
 from sqlalchemy.exc import SQLAlchemyError
 
 
+def read_alerts(db: Session):
+    """Return ingredients at or below their minimum stock level (Story 4)."""
+    try:
+        result = db.query(model.Inventory).filter(
+            model.Inventory.quantity <= model.Inventory.minimum_quantity
+        ).all()
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
+    return result
+
+
 def create(db: Session, request):
     new_item = model.Inventory(
         ingredient_name=request.ingredient_name,

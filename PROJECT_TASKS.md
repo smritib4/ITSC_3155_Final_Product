@@ -115,7 +115,7 @@ product backlog in §8 for traceability.
 
 Some stories need custom query/logic endpoints in addition to standard CRUD:
 
-- [ ] **`feature/inventory-alerts`** — insufficient-ingredient alert / low-stock endpoint. *(Story 4)*
+- [x] **`feature/inventory-alerts`** — insufficient-ingredient alert / low-stock endpoint. *(Story 4)*
 - [ ] **`feature/menu-auto-disable`** — auto-set `is_available=False` when an item's
   ingredients are out of stock. *(Story 6)*
 - [ ] **`feature/orders-filter-date`** — filter orders by date range endpoint. *(Story 9)*
@@ -239,7 +239,7 @@ already answerable by a working endpoint, ⏳ = needs a feature still pending th
 | Question | Answered by | Status |
 |---|---|---|
 | Can I easily create, update, or delete menu items? | `POST/PUT/DELETE /menuitems/{id}` — §6 | ✅ |
-| How does the system alert me if there are insufficient ingredients to fulfill an order? | `GET /inventory/alerts` (or similar) comparing `inventory.quantity` vs `minimum_quantity` — §13 `inventory-alerts` | ⏳ |
+| How does the system alert me if there are insufficient ingredients to fulfill an order? | `GET /inventory/alerts` comparing `inventory.quantity` vs `minimum_quantity` — §13 `inventory-alerts` | ✅ |
 | How can I view the list of all orders? Is there an option to view details of a specific order? | `GET /orders/` + `GET /orders/{id}` (§1); line items via `GET /orderdetails/` (§2) | ✅ |
 | How can I identify dishes that are less popular or have received complaints? Understand reasons behind dissatisfaction? | `reviews` CRUD (§12) surfaces comments/ratings per dish; `GET /reports/low-performing` aggregates low ratings/low order counts (§19 `low-performing-dishes`) | ⏳ (partial: §12 done; still needs §19) |
 | Can I create and manage promotional codes, including setting expiration dates? | `promo_codes` CRUD (§9) — model has `expirationDate` + `active` columns | ✅ |
@@ -261,7 +261,7 @@ already answerable by a working endpoint, ⏳ = needs a feature still pending th
 ### Net remaining work to fully cover the checklist
 
 All ✅ items are already live. **All 12 tables now have CRUD.** The remaining ⏳ checklist
-items are business-logic endpoints in `FEATURES.md`: `inventory-alerts` (§13),
-`orders-filter-date` (§15), `menu-search` (§16), `revenue-reports` (§17), `promo-apply`
-(§18), and `low-performing-dishes` (§19). No new tables/models are needed — just the
-endpoints.
+items are business-logic endpoints in `FEATURES.md`: `orders-filter-date` (§15),
+`menu-search` (§16), `revenue-reports` (§17), `promo-apply` (§18), and
+`low-performing-dishes` (§19). (`inventory-alerts` §13 is done.) No new tables/models
+are needed — just the endpoints.

@@ -20,6 +20,12 @@ def read_all(db: Session = Depends(get_db)):
     return controller.read_all(db)
 
 
+# Must be declared before /{item_id} so "alerts" is not captured as an integer path param.
+@router.get("/alerts", response_model=list[schema.Inventory])
+def read_alerts(db: Session = Depends(get_db)):
+    return controller.read_alerts(db)
+
+
 @router.get("/{item_id}", response_model=schema.Inventory)
 def read_one(item_id: int, db: Session = Depends(get_db)):
     return controller.read_one(db, item_id=item_id)
