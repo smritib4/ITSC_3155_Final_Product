@@ -1,3 +1,4 @@
+from sqlalchemy import or_
 from sqlalchemy.orm import Session, joinedload
 from fastapi import HTTPException, status, Response, Depends
 from ..models import menu_item as model
@@ -63,9 +64,21 @@ def create(db: Session, request):
     return new_item
 
 
-def read_all(db: Session):
+def read_all(db: Session, dietary_type: str | None = None, q: str | None = None):
+    """Return menu items, optionally filtered by dietary type and/or keyword (Stories 24, 25)."""
     try:
-        result = db.query(model.MenuItem).all()
+        query = db.query(model.MenuItem)
+        if dietary_type is not None:
+            query = query.filter(model.MenuItem.dietary_type == dietary_type)
+        if q is not None and q.strip():
+            pattern = f"%{q.strip()}%"
+            query = query.filter(
+                or_(
+                    model.MenuItem.item_name.ilike(pattern),
+                    model.MenuItem.description.ilike(pattern),
+                )
+            )
+        result = query.all()
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)

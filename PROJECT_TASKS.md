@@ -119,7 +119,7 @@ Some stories need custom query/logic endpoints in addition to standard CRUD:
 - [x] **`feature/menu-auto-disable`** — auto-set `is_available=False` when an item's
   ingredients are out of stock. *(Story 6)*
 - [x] **`feature/orders-filter-date`** — filter orders by date range endpoint. *(Story 9)*
-- [ ] **`feature/menu-search`** — search/filter menu by dietary type + keyword search. *(Stories 24, 25)*
+- [x] **`feature/menu-search`** — search/filter menu by dietary type + keyword search. *(Stories 24, 25)*
 - [ ] **`feature/revenue-reports`** — daily revenue total + revenue trends. *(Stories 14, 15)*
 - [ ] **`feature/promo-apply`** — apply promo code at checkout (discount calc). *(Story 28)*
 - [ ] **`feature/low-performing-dishes`** — identify low-performing dishes from reviews/sales. *(Story 10)*
@@ -254,14 +254,14 @@ already answerable by a working endpoint, ⏳ = needs a feature still pending th
 | How to pay for an order? | `POST /payments/` linked to the order — §8 | ✅ |
 | Does the system support takeout/delivery? How do I specify my preference? | `orders.orderType` field, set on `POST/PUT /orders/` — §1 | ✅ |
 | How can I track the status of my order by my tracking number? | `GET /orders/{orderID}` returns `orderStatus`; `orderID` doubles as the tracking number — §1 | ✅ |
-| Is there a feature to search for specific types of food (e.g. vegetarian)? | `GET /menuitems?dietary_type=` filter + `?q=` keyword search — §16 `menu-search` | ⏳ |
+| Is there a feature to search for specific types of food (e.g. vegetarian)? | `GET /menuitems?dietary_type=` filter + `?q=` keyword search — §16 `menu-search` | ✅ |
 | How can I rate/review dishes and share experiences with other customers? | `reviews` CRUD (§12): `POST /reviews/` to create, `GET /reviews/` to browse others' | ✅ |
 | How do I apply a promo code to my order? | `promoCode` field already exists on `Order` (schema/model) but nothing validates/discounts yet — §18 `promo-apply` needed on top of §9 `promo-codes-crud` | ⏳ |
 
 ### Net remaining work to fully cover the checklist
 
 All ✅ items are already live. **All 12 tables now have CRUD.** The remaining ⏳ checklist
-items are business-logic endpoints in `FEATURES.md`: `menu-search` (§16),
-`revenue-reports` (§17), `promo-apply` (§18), and `low-performing-dishes` (§19).
-(`inventory-alerts` §13 and `orders-filter-date` §15 are done.) No new tables/models
-are needed — just the endpoints.
+items are business-logic endpoints in `FEATURES.md`: `revenue-reports` (§17),
+`promo-apply` (§18), and `low-performing-dishes` (§19). (`inventory-alerts` §13,
+`orders-filter-date` §15, and `menu-search` §16 are done.) No new tables/models are
+needed — just the endpoints.
