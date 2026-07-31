@@ -13,8 +13,9 @@ class OrderBase(BaseModel):
 
 
 class OrderCreate(OrderBase):
-    customerID: int
-    employeeID: int
+    # Nullable to support guest checkout (no customer account).
+    customerID: Optional[int] = None
+    employeeID: Optional[int] = None
 
 
 class OrderUpdate(BaseModel):
@@ -24,13 +25,15 @@ class OrderUpdate(BaseModel):
     totalPrice: Optional[Decimal] = None
     estimatedTime: Optional[int] = None
     promoCode: Optional[str] = None
+    customerID: Optional[int] = None
+    employeeID: Optional[int] = None
 
 
 class Order(OrderBase):
     orderID: int
     orderDate: Optional[datetime] = None
-    customerID: int
-    employeeID: int
+    customerID: Optional[int] = None
+    employeeID: Optional[int] = None
 
     class Config:
         from_attributes = True

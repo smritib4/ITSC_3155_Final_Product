@@ -143,8 +143,8 @@ in-memory SQLite DB, via `api/tests/conftest.py`'s `client` fixture).
 
 ## 6. Demo Data & Docs
 
-- [ ] **`feature/seed-data`** — a script/fixture that populates every table with realistic
-  sample data for the demo.
+- [x] **`feature/seed-data`** — a script/fixture that populates every table with realistic
+  sample data for the demo (`python -m api.seed` / `--force`).
 - [ ] Update `README.md` with any new setup/run steps if needed.
 
 ---
@@ -154,7 +154,7 @@ in-memory SQLite DB, via `api/tests/conftest.py`'s `client` fixture).
 - [x] All 12 tables have working CRUD endpoints exposed in `/docs`.
 - [ ] App starts cleanly with `uvicorn api.main:app --reload` (no import/mapper errors).
 - [ ] `pytest` passes.
-- [ ] Sample data loads and the full order flow can be demoed end-to-end.
+- [x] Sample data loads and the full order flow can be demoed end-to-end.
 - [ ] Every High/Medium priority story below maps to a working, traceable endpoint.
 - [ ] Evaluation-checklist questions are all answerable by the running product (see §9).
 

@@ -233,7 +233,10 @@ adds/updates its own `api/tests/test_<name>.py` as part of that work item — a 
 catch-up branch like this one shouldn't be needed again.
 
 ## 21. `feature/seed-data` — Demo Data
-- [ ] Script/fixture populating every table with realistic sample data for the demo.
+- [x] Script/fixture populating every table with realistic sample data for the demo
+  (`api/seed.py`, run with `python -m api.seed` or `python -m api.seed --force`).
+- [x] `api/tests/test_seed.py` — seed fills all 12 tables and supports demo scenarios
+  (low stock, guest orders, promos, paid revenue, low ratings).
 
 ## 22. `feature/docs` — Documentation
 - [ ] Update `README.md` with any new setup/run/test steps.
