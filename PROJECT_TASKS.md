@@ -35,7 +35,7 @@ and `models/model_loader.py`).
 | `menu_items` | ✅ | ✅ | ✅ | ✅ | ✅ | Full CRUD working (verified) |
 | `menu_item_inventory` | ✅ | ✅ | ✅ | ✅ | ✅ | Full CRUD working (verified, composite PK) |
 | `payments` | ✅ | ✅ | ✅ | ✅ | ✅ | Full CRUD working (verified) |
-| `promo_codes` | ✅ | ✅ | ❌ | ❌ | ❌ | No CRUD |
+| `promo_codes` | ✅ | ✅ | ✅ | ✅ | ✅ | Full CRUD working (verified, string PK) |
 | `reports` | ✅ | ✅ | ❌ | ❌ | ❌ | No CRUD |
 | `restaurant_managers` | ✅ | ✅ | ❌ | ❌ | ❌ | No CRUD |
 | `reviews` | ✅ | ✅ | ❌ | ❌ | ❌ | No CRUD |
@@ -106,7 +106,7 @@ product backlog in §8 for traceability.
 - [x] **`feature/menu-item-inventory-crud`** — controller + router (composite PK
   `item_id` + `ingredient_id`; read-one/update/delete need both keys). *(Story 4)*
 - [x] **`feature/payments-crud`** — controller + router (schema exists). *(Stories 18, 19)*
-- [ ] **`feature/promo-codes-crud`** — controller + router (string PK `promoCode`). *(Stories 12, 13, 28)*
+- [x] **`feature/promo-codes-crud`** — controller + router (string PK `promoCode`). *(Stories 12, 13, 28)*
 - [ ] **`feature/reports-crud`** — controller + router (schema exists). *(Stories 10, 14, 15)*
 - [ ] **`feature/restaurant-managers-crud`** — controller + router (schema exists). *(supporting/admin CRUD)*
 - [ ] **`feature/reviews-crud`** — controller + router (schema exists). *(Stories 11, 26, 27)*
@@ -156,7 +156,7 @@ in-memory SQLite DB, via `api/tests/conftest.py`'s `client` fixture).
 - [ ] `pytest` passes.
 - [ ] Sample data loads and the full order flow can be demoed end-to-end.
 - [ ] Every High/Medium priority story below maps to a working, traceable endpoint.
-- [ ] Evaluation-checklist questions are all answerable by the running product.
+- [ ] Evaluation-checklist questions are all answerable by the running product (see §9).
 
 ---
 
@@ -223,3 +223,46 @@ the CRUD endpoints for their tables).
 > **Tables required for "CRUD for ALL tables" that have no direct story:**
 > `restaurant_employees`, `restaurant_managers`, `menu_item_inventory`, `reports` — build
 > standard CRUD for these as supporting/admin features so the evaluation requirement is met.
+
+---
+
+## 9. Evaluation Checklist Traceability
+
+The project instructions require the final product to "address" a provided list of
+questions (from the staff's and customer's perspective). Each maps to a feature in
+`FEATURES.md` (section numbers below refer to `FEATURES.md`, not this document); ✅ =
+already answerable by a working endpoint, ⏳ = needs a feature still pending there
+(§9–12 CRUD, §13–19 business logic).
+
+### Staff perspective
+
+| Question | Answered by | Status |
+|---|---|---|
+| Can I easily create, update, or delete menu items? | `POST/PUT/DELETE /menuitems/{id}` — §6 | ✅ |
+| How does the system alert me if there are insufficient ingredients to fulfill an order? | `GET /inventory/alerts` (or similar) comparing `inventory.quantity` vs `minimum_quantity` — §13 `inventory-alerts` | ⏳ |
+| How can I view the list of all orders? Is there an option to view details of a specific order? | `GET /orders/` + `GET /orders/{id}` (§1); line items via `GET /orderdetails/` (§2) | ✅ |
+| How can I identify dishes that are less popular or have received complaints? Understand reasons behind dissatisfaction? | `reviews` CRUD (§12) surfaces comments/ratings per dish; `GET /reports/low-performing` aggregates low ratings/low order counts (§19 `low-performing-dishes`) | ⏳ (needs §12 + §19) |
+| Can I create and manage promotional codes, including setting expiration dates? | `promo_codes` CRUD (§9) — model has `expirationDate` + `active` columns | ✅ |
+| How can I determine total revenue generated from food sales on any given day? | `GET /reports/revenue/daily` aggregating `payments.amount` by date — §17 `revenue-reports` | ⏳ (needs §17; §8 payments already provides the underlying data) |
+| Is there a way to view the list of orders within a specific date range? | `GET /orders?start_date=&end_date=` — §15 `orders-filter-date` | ⏳ |
+
+### Customer perspective
+
+| Question | Answered by | Status |
+|---|---|---|
+| How to place an order without signing up for an account? | Create a guest `Customer` with `hasAccount=false` (name/phone/email only, no login) via `POST /customers/`, then `POST /orders/` with that `customerID` — §3 + §1 | ✅ |
+| How to pay for an order? | `POST /payments/` linked to the order — §8 | ✅ |
+| Does the system support takeout/delivery? How do I specify my preference? | `orders.orderType` field, set on `POST/PUT /orders/` — §1 | ✅ |
+| How can I track the status of my order by my tracking number? | `GET /orders/{orderID}` returns `orderStatus`; `orderID` doubles as the tracking number — §1 | ✅ |
+| Is there a feature to search for specific types of food (e.g. vegetarian)? | `GET /menuitems?dietary_type=` filter + `?q=` keyword search — §16 `menu-search` | ⏳ |
+| How can I rate/review dishes and share experiences with other customers? | `reviews` CRUD (§12): `POST /reviews/` to create, `GET /reviews/` to browse others' | ⏳ |
+| How do I apply a promo code to my order? | `promoCode` field already exists on `Order` (schema/model) but nothing validates/discounts yet — §18 `promo-apply` needed on top of §9 `promo-codes-crud` | ⏳ |
+
+### Net remaining work to fully cover the checklist
+
+All ✅ items are already live. The ⏳ items are exactly what's left in `FEATURES.md`:
+`reports-crud` (§10), `reviews-crud` (§12, needs a `ReviewUpdate` schema too), plus the
+business-logic endpoints `inventory-alerts` (§13), `orders-filter-date` (§15),
+`menu-search` (§16), `revenue-reports` (§17), `promo-apply` (§18), and
+`low-performing-dishes` (§19). No new tables/models are needed — just the endpoints.
+(`promo-codes-crud` §9 is done; applying a code at checkout still needs §18.)

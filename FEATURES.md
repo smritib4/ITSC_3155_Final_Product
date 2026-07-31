@@ -123,10 +123,13 @@ errors before any feature is built. Not CRUD — these are prerequisite fixes.
 
 ## 9. `feature/promo-codes-crud` — Promo Codes  *(Stories 12, 13, 28)*
 
-- [ ] Create **`controllers/promo_codes.py`** (5 functions; **string PK** `promoCode`).
-- [ ] Create **`routers/promo_codes.py`** under `/promocodes` (`/{promo_code}` string
-  path param); register in `index.py`.
-- [ ] Schema exists (`schemas/promo_codes.py`, includes `PromoCodeUpdate`).
+- [x] Create **`controllers/promo_codes.py`** (5 functions; **string PK** `promoCode`).
+- [x] Create **`routers/promo_codes.py`** under `/promocodes` (`/{promo_code}` string
+  path param); registered in `index.py`.
+- [x] Schema exists (`schemas/promo_codes.py`, includes `PromoCodeUpdate`).
+- [x] `api/tests/test_promo_codes.py` — 8 tests (create, read-all, read-one + 404, update
+  (e.g. deactivate / change discount) + 404, delete + 404), seeding a manager first for
+  the required `managerID` FK — all passing.
 
 ## 10. `feature/reports-crud` — Reports  *(Stories 10, 14, 15)*
 
