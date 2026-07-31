@@ -8,6 +8,7 @@ from . import (
     menu_item_inventory,
     payments,
     promo_codes,
+    reports,
 )
 
 
@@ -21,3 +22,4 @@ def load_routes(app):
     app.include_router(menu_item_inventory.router)
     app.include_router(payments.router)
     app.include_router(promo_codes.router)
+    app.include_router(reports.router)

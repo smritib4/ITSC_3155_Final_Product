@@ -36,7 +36,7 @@ and `models/model_loader.py`).
 | `menu_item_inventory` | ✅ | ✅ | ✅ | ✅ | ✅ | Full CRUD working (verified, composite PK) |
 | `payments` | ✅ | ✅ | ✅ | ✅ | ✅ | Full CRUD working (verified) |
 | `promo_codes` | ✅ | ✅ | ✅ | ✅ | ✅ | Full CRUD working (verified, string PK) |
-| `reports` | ✅ | ✅ | ❌ | ❌ | ❌ | No CRUD |
+| `reports` | ✅ | ✅ | ✅ | ✅ | ✅ | Full CRUD working (verified) |
 | `restaurant_managers` | ✅ | ✅ | ❌ | ❌ | ❌ | No CRUD |
 | `reviews` | ✅ | ✅ | ❌ | ❌ | ❌ | No CRUD |
 
@@ -107,7 +107,7 @@ product backlog in §8 for traceability.
   `item_id` + `ingredient_id`; read-one/update/delete need both keys). *(Story 4)*
 - [x] **`feature/payments-crud`** — controller + router (schema exists). *(Stories 18, 19)*
 - [x] **`feature/promo-codes-crud`** — controller + router (string PK `promoCode`). *(Stories 12, 13, 28)*
-- [ ] **`feature/reports-crud`** — controller + router (schema exists). *(Stories 10, 14, 15)*
+- [x] **`feature/reports-crud`** — controller + router (schema exists). *(Stories 10, 14, 15)*
 - [ ] **`feature/restaurant-managers-crud`** — controller + router (schema exists). *(supporting/admin CRUD)*
 - [ ] **`feature/reviews-crud`** — controller + router (schema exists). *(Stories 11, 26, 27)*
 
@@ -261,8 +261,8 @@ already answerable by a working endpoint, ⏳ = needs a feature still pending th
 ### Net remaining work to fully cover the checklist
 
 All ✅ items are already live. The ⏳ items are exactly what's left in `FEATURES.md`:
-`reports-crud` (§10), `reviews-crud` (§12, needs a `ReviewUpdate` schema too), plus the
-business-logic endpoints `inventory-alerts` (§13), `orders-filter-date` (§15),
-`menu-search` (§16), `revenue-reports` (§17), `promo-apply` (§18), and
-`low-performing-dishes` (§19). No new tables/models are needed — just the endpoints.
-(`promo-codes-crud` §9 is done; applying a code at checkout still needs §18.)
+`reviews-crud` (§12, needs a `ReviewUpdate` schema too), plus the business-logic
+endpoints `inventory-alerts` (§13), `orders-filter-date` (§15), `menu-search` (§16),
+`revenue-reports` (§17), `promo-apply` (§18), and `low-performing-dishes` (§19). No new
+tables/models are needed — just the endpoints. (`promo-codes-crud` §9 and `reports-crud`
+§10 are done; daily revenue / low-performing still need §17 / §19 on top of reports.)

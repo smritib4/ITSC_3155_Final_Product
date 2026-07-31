@@ -133,9 +133,11 @@ errors before any feature is built. Not CRUD — these are prerequisite fixes.
 
 ## 10. `feature/reports-crud` — Reports  *(Stories 10, 14, 15)*
 
-- [ ] Create **`controllers/reports.py`** (5 functions; PK `report_id`).
-- [ ] Create **`routers/reports.py`** under `/reports`; register in `index.py`.
-- [ ] Schema exists (`schemas/report.py`, includes `ReportUpdate`).
+- [x] Create **`controllers/reports.py`** (5 functions; PK `report_id`).
+- [x] Create **`routers/reports.py`** under `/reports`; registered in `index.py`.
+- [x] Schema exists (`schemas/report.py`, includes `ReportUpdate`).
+- [x] `api/tests/test_reports.py` — 8 tests (create, read-all, read-one + 404, update + 404,
+  delete + 404) — all passing.
 
 ## 11. `feature/restaurant-managers-crud` — Managers  *(supporting/admin)*
 
