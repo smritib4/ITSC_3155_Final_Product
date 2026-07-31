@@ -184,8 +184,11 @@ full CRUD slice.
   end-only, empty range, no-params returns all) — all passing.
 
 ## 16. `feature/menu-search` — Dietary + Keyword Search  *(Stories 24, 25)*
-- [ ] `GET /menuitems?dietary_type=` filter (24) and `?q=` keyword search over
-  name/description (25).
+- [x] `GET /menuitems?dietary_type=` filter (24) and `?q=` keyword search over
+  name/description (25); both optional and combinable.
+- [x] `api/tests/test_menu_search.py` — 6 tests (dietary filter, name keyword,
+  description keyword, combined filters, empty results, no-params returns all) —
+  all passing.
 
 ## 17. `feature/revenue-reports` — Revenue  *(Stories 14, 15)*
 - [ ] `GET /reports/revenue/daily` daily total (14) and `/reports/revenue/trends`

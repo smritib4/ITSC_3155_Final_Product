@@ -1,3 +1,4 @@
+from typing import Optional
 from fastapi import APIRouter, Depends, FastAPI, status, Response
 from sqlalchemy.orm import Session
 from ..controllers import menu_items as controller
@@ -16,8 +17,12 @@ def create(request: schema.MenuItemCreate, db: Session = Depends(get_db)):
 
 
 @router.get("/", response_model=list[schema.MenuItem])
-def read_all(db: Session = Depends(get_db)):
-    return controller.read_all(db)
+def read_all(
+    dietary_type: Optional[str] = None,
+    q: Optional[str] = None,
+    db: Session = Depends(get_db),
+):
+    return controller.read_all(db, dietary_type=dietary_type, q=q)
 
 
 # Must be declared before /{item_id} so the path is not captured as an integer id.
