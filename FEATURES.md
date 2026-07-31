@@ -178,7 +178,10 @@ full CRUD slice.
   keeps available when stocked, skips unlinked items, inventory-update hook) — all passing.
 
 ## 15. `feature/orders-filter-date` — Filter Orders by Date  *(Story 9)*
-- [ ] `GET /orders?start_date=&end_date=` query-param filtering on `orderDate`.
+- [x] `GET /orders?start_date=&end_date=` query-param filtering on `orderDate`
+  (optional params; inclusive day bounds).
+- [x] `api/tests/test_orders_filter_date.py` — 5 tests (both bounds, start-only,
+  end-only, empty range, no-params returns all) — all passing.
 
 ## 16. `feature/menu-search` — Dietary + Keyword Search  *(Stories 24, 25)*
 - [ ] `GET /menuitems?dietary_type=` filter (24) and `?q=` keyword search over
