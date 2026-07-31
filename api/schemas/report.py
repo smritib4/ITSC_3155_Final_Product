@@ -37,3 +37,12 @@ class RevenueTrends(BaseModel):
     end_date: date
     days: List[DailyRevenue]
     grand_total: Decimal
+
+
+class LowPerformingDish(BaseModel):
+    item_id: int
+    item_name: Optional[str] = None
+    average_rating: Optional[float] = None
+    review_count: int
+    order_count: int
+    complaint_comments: List[str]

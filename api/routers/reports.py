@@ -40,6 +40,17 @@ def revenue_trends(
     return controller.revenue_trends(db, start_date=start_date, end_date=end_date)
 
 
+@router.get("/low-performing", response_model=list[schema.LowPerformingDish])
+def low_performing(
+    max_avg_rating: float = Query(2.5),
+    max_order_count: int = Query(2),
+    db: Session = Depends(get_db),
+):
+    return controller.low_performing(
+        db, max_avg_rating=max_avg_rating, max_order_count=max_order_count
+    )
+
+
 @router.get("/{item_id}", response_model=schema.Report)
 def read_one(item_id: int, db: Session = Depends(get_db)):
     return controller.read_one(db, item_id=item_id)
