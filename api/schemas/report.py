@@ -1,6 +1,7 @@
-from typing import Optional
+from typing import Optional, List
 from pydantic import BaseModel
-from datetime import datetime
+from datetime import datetime, date
+from decimal import Decimal
 
 
 class ReportBase(BaseModel):
@@ -23,3 +24,16 @@ class Report(ReportBase):
 
     class Config:
         from_attributes = True
+
+
+class DailyRevenue(BaseModel):
+    date: date
+    total_revenue: Decimal
+    payment_count: int
+
+
+class RevenueTrends(BaseModel):
+    start_date: date
+    end_date: date
+    days: List[DailyRevenue]
+    grand_total: Decimal

@@ -191,8 +191,11 @@ full CRUD slice.
   all passing.
 
 ## 17. `feature/revenue-reports` — Revenue  *(Stories 14, 15)*
-- [ ] `GET /reports/revenue/daily` daily total (14) and `/reports/revenue/trends`
-  over-time aggregation (15) from `payments`.
+- [x] `GET /reports/revenue/daily?date=` daily paid-payment total (14) and
+  `GET /reports/revenue/trends?start_date=&end_date=` over-time aggregation (15),
+  joining `payments` → `orders.orderDate` (payments have no date column).
+- [x] `api/tests/test_revenue_reports.py` — 5 tests (daily total, excludes non-paid,
+  zero day, trends range, inverted range 400) — all passing.
 
 ## 18. `feature/promo-apply` — Apply Promo at Checkout  *(Story 28)*
 - [ ] Endpoint to validate an active/non-expired promo code and apply `discountAmount` to
