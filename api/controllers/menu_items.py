@@ -1,7 +1,45 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from fastapi import HTTPException, status, Response, Depends
 from ..models import menu_item as model
+from ..models import menu_item_inventory as link_model
 from sqlalchemy.exc import SQLAlchemyError
+
+
+def recompute_availability(db: Session):
+    """Set is_available=False when any linked ingredient cannot cover quantity_required.
+
+    Story 6: auto-disable out-of-stock menu items. Only disables; does not re-enable
+    items that were manually marked unavailable.
+    """
+    try:
+        menu_items = (
+            db.query(model.MenuItem)
+            .options(
+                joinedload(model.MenuItem.ingredient_links).joinedload(
+                    link_model.MenuItemInventory.ingredient
+                )
+            )
+            .all()
+        )
+        disabled = []
+        for item in menu_items:
+            if not item.ingredient_links:
+                continue
+            depleted = any(
+                link.ingredient is not None
+                and link.ingredient.quantity < link.quantity_required
+                for link in item.ingredient_links
+            )
+            if depleted and item.is_available:
+                item.is_available = False
+                disabled.append(item)
+        db.commit()
+        for item in disabled:
+            db.refresh(item)
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
+    return disabled
 
 
 def create(db: Session, request):
