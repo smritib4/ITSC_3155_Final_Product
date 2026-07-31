@@ -198,8 +198,11 @@ full CRUD slice.
   zero day, trends range, inverted range 400) — all passing.
 
 ## 18. `feature/promo-apply` — Apply Promo at Checkout  *(Story 28)*
-- [ ] Endpoint to validate an active/non-expired promo code and apply `discountAmount` to
-  an order total.
+- [x] `POST /promocodes/apply` validates active/non-expired promo, applies
+  `discountAmount` to the order total (floor at 0), sets `orders.promoCode`
+  (declared before `/{promo_code}`).
+- [x] `api/tests/test_promo_apply.py` — 7 tests (success, floor at 0, inactive,
+  expired, missing promo/order, reject second apply) — all passing.
 
 ## 19. `feature/low-performing-dishes` — Analytics  *(Story 10)*
 - [ ] `GET /reports/low-performing` aggregating low ratings / low order counts per dish.

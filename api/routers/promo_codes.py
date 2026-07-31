@@ -20,6 +20,12 @@ def read_all(db: Session = Depends(get_db)):
     return controller.read_all(db)
 
 
+# Must be declared before /{promo_code} so "apply" is not captured as a promo code path.
+@router.post("/apply", response_model=schema.PromoApplyResponse)
+def apply(request: schema.PromoApplyRequest, db: Session = Depends(get_db)):
+    return controller.apply(db=db, request=request)
+
+
 @router.get("/{promo_code}", response_model=schema.PromoCode)
 def read_one(promo_code: str, db: Session = Depends(get_db)):
     return controller.read_one(db, promo_code=promo_code)

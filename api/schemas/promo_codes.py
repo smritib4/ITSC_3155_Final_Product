@@ -27,3 +27,16 @@ class PromoCode(PromoCodeBase):
 
     class Config:
         from_attributes = True
+
+
+class PromoApplyRequest(BaseModel):
+    promoCode: str
+    orderID: int
+
+
+class PromoApplyResponse(BaseModel):
+    promoCode: str
+    orderID: int
+    originalTotal: Decimal
+    discountAmount: Decimal
+    newTotal: Decimal
