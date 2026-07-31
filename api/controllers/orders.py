@@ -1,3 +1,4 @@
+from datetime import date, datetime, time
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status, Response, Depends
 from ..models import orders as model
@@ -26,9 +27,17 @@ def create(db: Session, request):
     return new_item
 
 
-def read_all(db: Session):
+def read_all(db: Session, start_date: date | None = None, end_date: date | None = None):
+    """Return all orders, optionally filtered by orderDate range (Story 9)."""
     try:
-        result = db.query(model.Order).all()
+        query = db.query(model.Order)
+        if start_date is not None:
+            start_dt = datetime.combine(start_date, time.min)
+            query = query.filter(model.Order.orderDate >= start_dt)
+        if end_date is not None:
+            end_dt = datetime.combine(end_date, time.max)
+            query = query.filter(model.Order.orderDate <= end_dt)
+        result = query.all()
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
