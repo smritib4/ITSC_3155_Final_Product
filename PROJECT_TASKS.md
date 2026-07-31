@@ -145,7 +145,7 @@ in-memory SQLite DB, via `api/tests/conftest.py`'s `client` fixture).
 
 - [x] **`feature/seed-data`** — a script/fixture that populates every table with realistic
   sample data for the demo (`python -m api.seed` / `--force`).
-- [ ] Update `README.md` with any new setup/run steps if needed.
+- [x] Update `README.md` with any new setup/run steps if needed.
 
 ---
 
