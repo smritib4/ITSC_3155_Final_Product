@@ -120,7 +120,7 @@ Some stories need custom query/logic endpoints in addition to standard CRUD:
   ingredients are out of stock. *(Story 6)*
 - [x] **`feature/orders-filter-date`** — filter orders by date range endpoint. *(Story 9)*
 - [x] **`feature/menu-search`** — search/filter menu by dietary type + keyword search. *(Stories 24, 25)*
-- [ ] **`feature/revenue-reports`** — daily revenue total + revenue trends. *(Stories 14, 15)*
+- [x] **`feature/revenue-reports`** — daily revenue total + revenue trends. *(Stories 14, 15)*
 - [ ] **`feature/promo-apply`** — apply promo code at checkout (discount calc). *(Story 28)*
 - [ ] **`feature/low-performing-dishes`** — identify low-performing dishes from reviews/sales. *(Story 10)*
 
@@ -243,7 +243,7 @@ already answerable by a working endpoint, ⏳ = needs a feature still pending th
 | How can I view the list of all orders? Is there an option to view details of a specific order? | `GET /orders/` + `GET /orders/{id}` (§1); line items via `GET /orderdetails/` (§2) | ✅ |
 | How can I identify dishes that are less popular or have received complaints? Understand reasons behind dissatisfaction? | `reviews` CRUD (§12) surfaces comments/ratings per dish; `GET /reports/low-performing` aggregates low ratings/low order counts (§19 `low-performing-dishes`) | ⏳ (partial: §12 done; still needs §19) |
 | Can I create and manage promotional codes, including setting expiration dates? | `promo_codes` CRUD (§9) — model has `expirationDate` + `active` columns | ✅ |
-| How can I determine total revenue generated from food sales on any given day? | `GET /reports/revenue/daily` aggregating `payments.amount` by date — §17 `revenue-reports` | ⏳ (needs §17; §8 payments already provides the underlying data) |
+| How can I determine total revenue generated from food sales on any given day? | `GET /reports/revenue/daily` aggregating paid `payments.amount` by `orders.orderDate` — §17 `revenue-reports` | ✅ |
 | Is there a way to view the list of orders within a specific date range? | `GET /orders?start_date=&end_date=` — §15 `orders-filter-date` | ✅ |
 
 ### Customer perspective
@@ -261,7 +261,7 @@ already answerable by a working endpoint, ⏳ = needs a feature still pending th
 ### Net remaining work to fully cover the checklist
 
 All ✅ items are already live. **All 12 tables now have CRUD.** The remaining ⏳ checklist
-items are business-logic endpoints in `FEATURES.md`: `revenue-reports` (§17),
-`promo-apply` (§18), and `low-performing-dishes` (§19). (`inventory-alerts` §13,
-`orders-filter-date` §15, and `menu-search` §16 are done.) No new tables/models are
+items are business-logic endpoints in `FEATURES.md`: `promo-apply` (§18) and
+`low-performing-dishes` (§19). (`inventory-alerts` §13, `orders-filter-date` §15,
+`menu-search` §16, and `revenue-reports` §17 are done.) No new tables/models are
 needed — just the endpoints.
