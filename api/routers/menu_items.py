@@ -20,6 +20,12 @@ def read_all(db: Session = Depends(get_db)):
     return controller.read_all(db)
 
 
+# Must be declared before /{item_id} so the path is not captured as an integer id.
+@router.post("/recompute-availability", response_model=list[schema.MenuItem])
+def recompute_availability(db: Session = Depends(get_db)):
+    return controller.recompute_availability(db)
+
+
 @router.get("/{item_id}", response_model=schema.MenuItem)
 def read_one(item_id: int, db: Session = Depends(get_db)):
     return controller.read_one(db, item_id=item_id)

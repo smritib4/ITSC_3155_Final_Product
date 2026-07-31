@@ -65,6 +65,11 @@ def update(db: Session, item_id, request):
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
+
+    # Story 6: after inventory changes, auto-disable menu items that can no longer be made.
+    from . import menu_items as menu_items_controller
+    menu_items_controller.recompute_availability(db)
+
     return item.first()
 
 

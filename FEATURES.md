@@ -171,8 +171,11 @@ full CRUD slice.
   empty when all stocked, multiple alerts) — all passing.
 
 ## 14. `feature/menu-auto-disable` — Auto-disable Out-of-stock  *(Story 6)*
-- [ ] Logic to set `menu_items.is_available = False` when linked ingredients are depleted
-  (endpoint to recompute availability, plus/or hook on inventory update).
+- [x] `POST /menuitems/recompute-availability` sets `is_available=False` when any linked
+  ingredient has `quantity < quantity_required` (declared before `/{item_id}`).
+- [x] Hook on inventory `PUT` to recompute availability after stock changes.
+- [x] `api/tests/test_menu_auto_disable.py` — 4 tests (recompute disables depleted,
+  keeps available when stocked, skips unlinked items, inventory-update hook) — all passing.
 
 ## 15. `feature/orders-filter-date` — Filter Orders by Date  *(Story 9)*
 - [ ] `GET /orders?start_date=&end_date=` query-param filtering on `orderDate`.

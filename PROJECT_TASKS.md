@@ -116,7 +116,7 @@ product backlog in §8 for traceability.
 Some stories need custom query/logic endpoints in addition to standard CRUD:
 
 - [x] **`feature/inventory-alerts`** — insufficient-ingredient alert / low-stock endpoint. *(Story 4)*
-- [ ] **`feature/menu-auto-disable`** — auto-set `is_available=False` when an item's
+- [x] **`feature/menu-auto-disable`** — auto-set `is_available=False` when an item's
   ingredients are out of stock. *(Story 6)*
 - [ ] **`feature/orders-filter-date`** — filter orders by date range endpoint. *(Story 9)*
 - [ ] **`feature/menu-search`** — search/filter menu by dietary type + keyword search. *(Stories 24, 25)*
