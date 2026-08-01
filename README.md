@@ -93,9 +93,6 @@ pytest api/tests --cov=api
 | pi/schemas/ | Pydantic request/response models |
 | pi/seed.py | Demo data seeder |
 | pi/tests/ | Pytest suite |
-| FEATURES.md | Feature work-item checklist |
-| PROJECT_TASKS.md | Task plan / backlog mapping |
-| TEST_PLAN.md | Testing notes |
 
 ---
 
