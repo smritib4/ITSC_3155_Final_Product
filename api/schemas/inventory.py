@@ -1,22 +1,23 @@
 from typing import Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from decimal import Decimal
 
 
 class InventoryBase(BaseModel):
     ingredient_name: str
-    quantity: Decimal
-    minimum_quantity: Decimal
+    quantity: Decimal = Field(..., ge=0)
+    minimum_quantity: Decimal = Field(..., ge=0)
 
 
 class InventoryCreate(InventoryBase):
-    pass
+    maintained_by_manager_id: Optional[int] = None
 
 
 class InventoryUpdate(BaseModel):
     ingredient_name: Optional[str] = None
-    quantity: Optional[Decimal] = None
-    minimum_quantity: Optional[Decimal] = None
+    quantity: Optional[Decimal] = Field(None, ge=0)
+    minimum_quantity: Optional[Decimal] = Field(None, ge=0)
+    maintained_by_manager_id: Optional[int] = None
 
 
 class Inventory(InventoryBase):

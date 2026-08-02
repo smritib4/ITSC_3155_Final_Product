@@ -1,7 +1,19 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status, Response, Depends
 from ..models import inventory as model
+from ..models import restaurant_manager as manager_model
 from sqlalchemy.exc import SQLAlchemyError
+
+
+def _validate_manager(db: Session, manager_id):
+    """Reject an unknown manager rather than silently storing a dangling id."""
+    if manager_id is None:
+        return
+    manager = db.query(manager_model.RestaurantManager).filter(
+        manager_model.RestaurantManager.manager_id == manager_id
+    ).first()
+    if not manager:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Manager not found!")
 
 
 def read_alerts(db: Session):
@@ -17,10 +29,13 @@ def read_alerts(db: Session):
 
 
 def create(db: Session, request):
+    _validate_manager(db, request.maintained_by_manager_id)
+
     new_item = model.Inventory(
         ingredient_name=request.ingredient_name,
         quantity=request.quantity,
         minimum_quantity=request.minimum_quantity,
+        maintained_by_manager_id=request.maintained_by_manager_id,
     )
 
     try:
@@ -28,6 +43,7 @@ def create(db: Session, request):
         db.commit()
         db.refresh(new_item)
     except SQLAlchemyError as e:
+        db.rollback()
         error = str(e.__dict__['orig'])
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
 
@@ -59,7 +75,8 @@ def update(db: Session, item_id, request):
         item = db.query(model.Inventory).filter(model.Inventory.ingredient_id == item_id)
         if not item.first():
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Id not found!")
-        update_data = request.dict(exclude_unset=True)
+        update_data = request.model_dump(exclude_unset=True)
+        _validate_manager(db, update_data.get("maintained_by_manager_id"))
         item.update(update_data, synchronize_session=False)
         db.commit()
     except SQLAlchemyError as e:

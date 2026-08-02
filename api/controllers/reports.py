@@ -195,11 +195,15 @@ def low_performing(
 
 
 def create(db: Session, request):
-    new_item = model.Report(
-        report_name=request.report_name,
-        date_generated=request.date_generated,
-        generated_by_manager_id=request.generated_by_manager_id,
-    )
+    fields = {
+        "report_name": request.report_name,
+        "generated_by_manager_id": request.generated_by_manager_id,
+    }
+    # Leave the column unset when the client omits it so the model default applies.
+    if request.date_generated is not None:
+        fields["date_generated"] = request.date_generated
+
+    new_item = model.Report(**fields)
 
     try:
         db.add(new_item)

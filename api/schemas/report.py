@@ -6,10 +6,11 @@ from decimal import Decimal
 
 class ReportBase(BaseModel):
     report_name: str
-    date_generated: datetime
 
 
 class ReportCreate(ReportBase):
+    # Optional: the model stamps the current time when it is omitted.
+    date_generated: Optional[datetime] = None
     generated_by_manager_id: Optional[int] = None
 
 
@@ -20,6 +21,7 @@ class ReportUpdate(BaseModel):
 
 class Report(ReportBase):
     report_id: int
+    date_generated: datetime
     generated_by_manager_id: Optional[int] = None
 
     class Config:

@@ -10,7 +10,7 @@ class MenuItem(Base):
     item_id = Column(Integer, primary_key=True, autoincrement=True)
     item_name = Column(String(150), nullable=True)
     description = Column(String(255))
-    price = Column(DECIMAL(4, 2), nullable=False)
+    price = Column(DECIMAL(10, 2), nullable=False)
     category = Column(String(100))
     dietary_type = Column(String(50))
     is_available = Column(BOOLEAN, nullable=False, default=True)

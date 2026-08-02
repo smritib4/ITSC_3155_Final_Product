@@ -24,6 +24,16 @@ def test_create_report(client):
     assert body["generated_by_manager_id"] is None
 
 
+def test_create_report_without_date_generated(client):
+    """date_generated is stamped by the model when the client omits it."""
+    response = client.post("/reports/", json={"report_name": "Daily Sales Summary"})
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["report_id"] is not None
+    assert body["date_generated"] is not None
+
+
 def test_read_all_reports(client):
     client.post("/reports/", json=_sample_report())
     client.post("/reports/", json=_sample_report(report_name="Weekly Trends"))
