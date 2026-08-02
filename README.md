@@ -99,9 +99,11 @@ pytest api/tests --cov=api
 
 | Document | Contents |
 |---|---|
-| `FEATURES.md` | User stories mapped to the endpoints that implement them |
-| `PROJECT_TASKS.md` | Sprint task breakdown and status |
-| `TEST_PLAN.md` | Test strategy and coverage notes |
+| `Product backlog and User Stories.xlsx` | Product backlog (28 stories, priority, points, sprint) and the full user stories sheet |
+| `Sprint 1 - Sprint Backlog Tasks.xlsx` | Sprint 1 task breakdown, owners, estimates, and burndown |
+| `Sprint 1 - Sprint Review.docx` | Sprint 1 goals, demos, completed work, and action items |
+| `Sprint 2 - Sprint Backlog Tasks.xlsx` | Sprint 2 task breakdown, owners, estimates, and burndown |
+| `Sprint 2 - Sprint Review.docx` | Sprint 2 goals, demos, completed work, and action items |
 
 ---
 
