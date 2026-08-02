@@ -23,9 +23,13 @@ def create(db: Session, request):
     return new_item
 
 
-def read_all(db: Session):
+def read_all(db: Session, item_id: int | None = None):
+    """Return reviews, optionally narrowed to a single dish (Story 27)."""
     try:
-        result = db.query(model.Review).all()
+        query = db.query(model.Review)
+        if item_id is not None:
+            query = query.filter(model.Review.item_id == item_id)
+        result = query.all()
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)

@@ -13,6 +13,10 @@ class OrderBase(BaseModel):
 
 
 class OrderCreate(OrderBase):
+    # Starting total for an order that has no line items yet. Once line items
+    # exist the server recomputes this from menu prices, so a client cannot
+    # decide what an order costs.
+    totalPrice: Decimal = Decimal("0.00")
     # Nullable to support guest checkout (no customer account).
     customerID: Optional[int] = None
     employeeID: Optional[int] = None
@@ -34,6 +38,20 @@ class Order(OrderBase):
     orderDate: Optional[datetime] = None
     customerID: Optional[int] = None
     employeeID: Optional[int] = None
+
+    class Config:
+        from_attributes = True
+
+
+class OrderTracking(BaseModel):
+    """Customer-facing order status view (Story 22)."""
+
+    orderID: int
+    orderStatus: str
+    orderType: str
+    estimatedTime: int
+    orderDate: Optional[datetime] = None
+    totalPrice: Decimal
 
     class Config:
         from_attributes = True

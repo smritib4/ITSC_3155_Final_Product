@@ -327,11 +327,14 @@ def seed_database(db: Session, *, clear: bool = True) -> dict[str, int]:
     db.flush()
 
     order_items = [
-        OrderItem(order_id=orders[0].orderID, item_id=club.item_id, quantity=2),
+        OrderItem(order_id=orders[0].orderID, item_id=club.item_id, quantity=2,
+                  special_instructions="No mayo, extra pickles"),
         OrderItem(order_id=orders[1].orderID, item_id=melt.item_id, quantity=1),
-        OrderItem(order_id=orders[2].orderID, item_id=club.item_id, quantity=1),
+        OrderItem(order_id=orders[2].orderID, item_id=club.item_id, quantity=1,
+                  special_instructions="Cut in half, gluten free bread"),
         OrderItem(order_id=orders[2].orderID, item_id=wrap.item_id, quantity=1),
-        OrderItem(order_id=orders[3].orderID, item_id=wrap.item_id, quantity=1),
+        OrderItem(order_id=orders[3].orderID, item_id=wrap.item_id, quantity=1,
+                  special_instructions="Dressing on the side"),
         OrderItem(order_id=orders[4].orderID, item_id=soup.item_id, quantity=1),
         OrderItem(order_id=orders[5].orderID, item_id=club.item_id, quantity=1),
     ]

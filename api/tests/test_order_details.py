@@ -116,3 +116,72 @@ def test_delete_order_detail_not_found(client):
     response = client.delete("/orderdetails/9999")
 
     assert response.status_code == 404
+
+
+def test_create_order_detail_with_special_instructions(client):
+    """Story 8: staff need to see itemized special instructions."""
+    order = _create_order(client)
+    menu_item = _create_menu_item(client)
+
+    response = client.post(
+        "/orderdetails/",
+        json=_sample_detail(
+            order["orderID"], menu_item["item_id"], special_instructions="no mayo, extra pickles"
+        ),
+    )
+
+    assert response.status_code == 200
+    assert response.json()["special_instructions"] == "no mayo, extra pickles"
+
+
+def test_special_instructions_default_to_none(client):
+    order = _create_order(client)
+    menu_item = _create_menu_item(client)
+
+    response = client.post(
+        "/orderdetails/", json=_sample_detail(order["orderID"], menu_item["item_id"])
+    )
+
+    assert response.status_code == 200
+    assert response.json()["special_instructions"] is None
+
+
+def test_update_special_instructions(client):
+    order = _create_order(client)
+    menu_item = _create_menu_item(client)
+    created = client.post(
+        "/orderdetails/",
+        json=_sample_detail(order["orderID"], menu_item["item_id"], special_instructions="no mayo"),
+    ).json()
+
+    response = client.put(
+        f"/orderdetails/{created['id']}", json={"special_instructions": "gluten free bread"}
+    )
+
+    assert response.status_code == 200
+    assert response.json()["special_instructions"] == "gluten free bread"
+
+
+def test_special_instructions_visible_in_order_detail_list(client):
+    order = _create_order(client)
+    menu_item = _create_menu_item(client)
+    client.post(
+        "/orderdetails/",
+        json=_sample_detail(order["orderID"], menu_item["item_id"], special_instructions="on the side"),
+    )
+
+    response = client.get("/orderdetails/")
+
+    assert response.status_code == 200
+    assert response.json()[0]["special_instructions"] == "on the side"
+
+
+def test_zero_quantity_line_item_is_rejected(client):
+    order = _create_order(client)
+    menu_item = _create_menu_item(client)
+
+    response = client.post(
+        "/orderdetails/", json=_sample_detail(order["orderID"], menu_item["item_id"], quantity=0)
+    )
+
+    assert response.status_code == 422

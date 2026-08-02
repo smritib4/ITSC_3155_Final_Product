@@ -1,11 +1,12 @@
 from typing import Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class OrderDetailBase(BaseModel):
     order_id: int
     item_id: int
-    quantity: int = 1
+    quantity: int = Field(1, ge=1)
+    special_instructions: Optional[str] = None
 
 
 class OrderDetailCreate(OrderDetailBase):
@@ -15,7 +16,8 @@ class OrderDetailCreate(OrderDetailBase):
 class OrderDetailUpdate(BaseModel):
     order_id: Optional[int] = None
     item_id: Optional[int] = None
-    quantity: Optional[int] = None
+    quantity: Optional[int] = Field(None, ge=1)
+    special_instructions: Optional[str] = None
 
 
 class OrderDetail(OrderDetailBase):

@@ -1,3 +1,4 @@
+from typing import Optional
 from fastapi import APIRouter, Depends, FastAPI, status, Response
 from sqlalchemy.orm import Session
 from ..controllers import reviews as controller
@@ -16,8 +17,8 @@ def create(request: schema.ReviewCreate, db: Session = Depends(get_db)):
 
 
 @router.get("/", response_model=list[schema.ReviewResponse])
-def read_all(db: Session = Depends(get_db)):
-    return controller.read_all(db)
+def read_all(item_id: Optional[int] = None, db: Session = Depends(get_db)):
+    return controller.read_all(db, item_id=item_id)
 
 
 @router.get("/{item_id}", response_model=schema.ReviewResponse)

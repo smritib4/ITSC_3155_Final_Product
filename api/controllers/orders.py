@@ -55,6 +55,18 @@ def read_one(db: Session, item_id):
     return item
 
 
+def track(db: Session, item_id):
+    """Return the live status of a single order (Story 22)."""
+    try:
+        item = db.query(model.Order).filter(model.Order.orderID == item_id).first()
+        if not item:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Id not found!")
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
+    return item
+
+
 def update(db: Session, item_id, request):
     try:
         item = db.query(model.Order).filter(model.Order.orderID == item_id)
