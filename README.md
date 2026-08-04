@@ -7,6 +7,13 @@ Interactive API docs (Swagger UI): [http://127.0.0.1:8000/docs](http://127.0.0.1
 
 ---
 
+## Project presentation
+
+Video walkthrough of the project: [`docs/final-presentation.mp4`](docs/final-presentation.mp4)
+(click the link, then press play in GitHub's file viewer).
+
+---
+
 ## Setup
 
 1. Clone the repo and create a virtual environment (recommended).
@@ -104,6 +111,7 @@ pytest api/tests --cov=api
 | `Sprint 1 - Sprint Review.docx` | Sprint 1 goals, demos, completed work, and action items |
 | `Sprint 2 - Sprint Backlog Tasks.xlsx` | Sprint 2 task breakdown, owners, estimates, and burndown |
 | `Sprint 2 - Sprint Review.docx` | Sprint 2 goals, demos, completed work, and action items |
+| `docs/final-presentation.mp4` | Recorded final project presentation |
 
 ---
 
